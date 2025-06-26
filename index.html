@@ -1,4 +1,1611 @@
-document.addEventListener('DOMContentLoaded', function() {
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png">
+    <style>
+        /* CSS Styles - Shopify Inspired */
+        :root {
+            --primary: #FFD700; /* Changed to yellow */
+            --secondary: #D4AF37; /* Gold */
+            --accent: #47c1bf; /* Teal */
+            --light: #f9fafb;
+            --dark: #212b35;
+            --border: #dfe3e8;
+            --yellow-tap: #FFD700; /* Gold/yellow color */
+            --red-price: #ff0000; /* Red color for price */
+            --sold-out: #888; /* Gray for sold out items */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        /* Header with smaller logo */
+        .header {
+            background-color: white;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+        
+        .header__left-icons,
+        .header__right-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .header__right-icons {
+            justify-content: flex-end;
+        }
+        
+        .header__logo {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .header__logo img {
+            height: 50px;
+            max-width: 100%;
+        }
+        
+        /* Search bar */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            padding: 5px 10px;
+            width: 120px;
+        }
+        
+        .search-container input {
+            border: none;
+            background: transparent;
+            padding: 5px;
+            width: 100%;
+            outline: none;
+            font-size: 12px;
+        }
+        
+        .search-container i {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        /* Yellow Tap */
+        .yellow-tap {
+            background-color: var(--yellow-tap);
+            color: var(--dark);
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        /* Header Icons */
+        .header__cart-icon,
+        .header__menu-icon {
+            opacity: 0.8;
+            transform: scale(0.8);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .header__menu-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+        }
+        
+        .header__menu-line {
+            height: 2px;
+            background-color: var(--dark);
+        }
+        
+        .header__menu-line:first-child {
+            width: 22px;
+        }
+        
+        .header__menu-line:nth-child(2) {
+            width: 16px;
+        }
+        
+        .header__menu-line:last-child {
+            width: 22px;
+        }
+        
+        .header__cart {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .header__cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: var(--primary);
+            color: var(--dark);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .side-menu.active {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .close-menu {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .menu-item i {
+            font-size: 18px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Hero Slideshow - Updated to show full images without zoom */
+        .hero-slideshow {
+            width: 100%;
+            height: 50vh;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide img {
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Category sections */
+        .category-section {
+            max-width: 100%;
+            margin: 0 auto 30px;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-direction: row-reverse;
+            padding: 0 5px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-left: 10px;
+        }
+        
+        .view-all-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 6px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .view-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Products wrapper - Updated to disable finger scrolling */
+        .products-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 0 5px;
+        }
+        
+        .products-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            scroll-behavior: smooth;
+            touch-action: none; /* Disable finger scrolling */
+            pointer-events: auto;
+        }
+        
+        .products-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .products-scroll {
+            display: flex;
+            gap: 15px;
+            padding: 0 5px;
+            width: max-content;
+        }
+        
+        .product-item {
+            width: 150px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            height: 100%;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+        
+        .product-image img {
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        
+        .product-designer {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        
+        .product-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--red-price);
+            text-align: center;
+            margin: 8px 0;
+        }
+        
+        .product-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 8px 0;
+            justify-content: center;
+        }
+        
+        .size-option {
+            padding: 3px 8px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 10px;
+            cursor: pointer;
+            min-width: 30px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .size-option:hover {
+            border-color: var(--dark);
+        }
+        
+        .size-option.selected {
+            background-color: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 8px;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: auto;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .add-to-cart:disabled {
+            background-color: var(--sold-out);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .sold-out-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--sold-out);
+            color: white;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        /* Navigation arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid var(--dark);
+            opacity: 0.9;
+            transition: all 0.2s;
+        }
+        
+        .nav-arrow:hover {
+            opacity: 1;
+            background-color: var(--secondary);
+        }
+        
+        .nav-arrow svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--dark);
+            stroke-width: 2;
+        }
+        
+        .nav-arrow.left {
+            left: 5px;
+        }
+        
+        .nav-arrow.right {
+            right: 5px;
+        }
+        
+        .nav-arrow.hidden {
+            display: none;
+        }
+        
+        /* Category Full Views */
+        .category-full-view {
+            display: none;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        
+        .category-full-view.active {
+            display: block;
+        }
+        
+        .category-products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .back-to-categories {
+            display: inline-block;
+            margin-bottom: 15px;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 6px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .back-to-categories:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Product Details Modal */
+        .product-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1002;
+            overflow-y: auto;
+            display: none;
+            padding: 15px;
+        }
+        
+        .product-details-modal.active {
+            display: block;
+        }
+        
+        .product-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .product-details-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .product-details-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .product-details-images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .product-main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            background-color: #f9f9f9;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .product-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .product-thumbnail.active {
+            border-color: var(--primary);
+        }
+        
+        .product-details-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .product-details-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .product-details-designer {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .product-details-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--red-price);
+        }
+        
+        .product-details-description {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .product-details-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        
+        .product-details-size {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 36px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .product-details-size:hover {
+            border-color: var(--dark);
+        }
+        
+        .product-details-size.selected {
+            background-color: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .product-details-add-to-cart {
+            padding: 12px;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            border: 1px solid var(--dark);
+            margin-top: 15px;
+        }
+        
+        .product-details-add-to-cart:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .product-details-add-to-cart:disabled {
+            background-color: var(--sold-out);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .back-to-home {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 8px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Checkout Modal */
+        .checkout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1002;
+            overflow-y: auto;
+            display: none;
+            padding: 15px;
+        }
+        
+        .checkout-modal.active {
+            display: block;
+        }
+        
+        .checkout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .checkout-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .checkout-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .order-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .order-item-image {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+        
+        .order-item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .order-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .order-item-size {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .order-total {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: right;
+        }
+        
+        /* Empty cart message */
+        .empty-cart-message {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Footer - Updated with copyright */
+        .footer {
+            padding: 15px;
+            background-color: transparent;
+            border-top: 1px solid var(--border);
+        }
+        
+        .footer__bottom {
+            max-width: 100%;
+            margin: 0 auto;
+            padding-top: 15px;
+            font-size: 11px;
+            color: var(--dark);
+            text-align: center;
+            line-height: 1.6;
+            padding-bottom: 20px;
+        }
+        
+        /* Responsive styles */
+        @media (min-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                height: 80px;
+            }
+            
+            .header__logo img {
+                height: 60px;
+            }
+            
+            .search-container {
+                width: 150px;
+                padding: 5px 12px;
+            }
+            
+            .search-container input {
+                font-size: 14px;
+            }
+            
+            .hero-slideshow {
+                height: 50vh;
+            }
+            
+            .category-products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .product-item {
+                width: 180px;
+            }
+            
+            .product-image {
+                height: 180px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .category-products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .product-details-content {
+                flex-direction: row;
+            }
+            
+            .product-details-images {
+                flex: 1;
+            }
+            
+            .product-details-info {
+                flex: 1;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__left-icons">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="بحث..." id="searchInput">
+            </div>
+        </div>
+        
+        <div class="header__logo">
+            <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="MG">
+        </div>
+        
+        <div class="header__right-icons">
+            <div class="header__cart" id="cartIcon">
+                <button class="header__cart-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </button>
+                <span class="header__cart-count" id="cartCount">0</span>
+            </div>
+            <button class="header__menu-icon" id="menuButton">
+                <div class="header__menu-line"></div>
+                <div class="header__menu-line"></div>
+                <div class="header__menu-line"></div>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>القائمة</h3>
+            <button class="close-menu" id="closeMenu">&times;</button>
+        </div>
+        <div class="menu-items">
+            <a href="https://wa.me/201123271234" class="menu-item" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100050631903021" class="menu-item" target="_blank">
+                <i class="fab fa-facebook"></i>
+                <span>فيسبوك</span>
+            </a>
+            <a href="https://www.instagram.com/mg_fashion6?igsh=NjJ3b2M0ZmdjbnZo&utm_source=qr" class="menu-item" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>انستجرام</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-info-circle"></i>
+                <span>معلومات عنا</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Yellow Tap -->
+    <div class="yellow-tap">
+     شحن مجاني علي اوردرات اكتر من 2000 جنية
+    </div>
+    
+    <!-- Hero Slideshow - Updated to show full images -->
+    <div class="hero-slideshow">
+        <div class="hero-slide active">
+            <img src="https://i.postimg.cc/RC3qgr4W/9fe22c3e-d901-427d-8392-bffb232c1ba1.jpg" alt="MG">
+        </div>
+        <div class="hero-slide">
+            <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="MG">
+        </div>
+        <div class="hero-slide">
+            <img src="https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg" alt="MG">
+        </div>
+    </div>
+    
+    <!-- Categories Container -->
+    <div class="categories-container">
+        <!-- Category Photos -->
+        <div class="category-section">
+            <div class="category-photos-container">
+                <!-- Men's Category -->
+                <div class="product-item category-photo-item" id="menCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="ملابس رجالية">
+                    </div>
+                    <div class="product-name">ملابس رجالية</div>
+                    <button class="add-to-cart">تسوق الآن</button>
+                </div>
+                
+                <!-- Women's Category -->
+                <div class="product-item category-photo-item" id="womenCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg" alt="ملابس نسائية">
+                    </div>
+                    <div class="product-name">ملابس نسائية</div>
+                    <button class="add-to-cart">تسوق الآن</button>
+                </div>
+                
+                <!-- Children's Category -->
+                <div class="product-item category-photo-item" id="childrenCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/2yyBF23b/c6b54a72-05aa-469e-98ef-49af2c8ae733.jpg" alt="ملابس أطفال">
+                    </div>
+                    <div class="product-name">ملابس أطفال</div>
+                    <button class="add-to-cart">تسوق الآن</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Best Sellers Category -->
+        <section class="category-section" id="bestSellersCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-best">عرض الكل</a>
+                <h2 class="category-title">الأكثر مبيعاً</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <button class="nav-arrow left hidden best-left-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                
+                <div class="products-container best-products-container">
+                    <div class="products-scroll best-products-scroll">
+                        <!-- Product 1 -->
+                        <div class="product-item" data-product-id="best1">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="تيشيرت رجالي">
+                            </div>
+                            <div class="product-name">تيشيرت رجالي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">199.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">S</span>
+                                <span class="size-option">M</span>
+                                <span class="size-option">L</span>
+                                <span class="size-option">XL</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-item" data-product-id="best2">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بلوزة نسائية">
+                            </div>
+                            <div class="product-name">بلوزة نسائية</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">149.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">S</span>
+                                <span class="size-option">M</span>
+                                <span class="size-option">L</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-item" data-product-id="best3">
+                            <div class="sold-out-badge">نفذ</div>
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت جلد">
+                            </div>
+                            <div class="product-name">جاكيت جلد</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">249.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">M</span>
+                                <span class="size-option">L</span>
+                            </div>
+                            <button class="add-to-cart" disabled>نفذ</button>
+                        </div>
+                        
+                        <!-- Product 4 -->
+                        <div class="product-item" data-product-id="best4">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بنطال جينز">
+                            </div>
+                            <div class="product-name">بنطال جينز</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">99.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">28</span>
+                                <span class="size-option">30</span>
+                                <span class="size-option">32</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="nav-arrow right best-right-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Men's Category -->
+        <section class="category-section" id="menCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-men">عرض الكل</a>
+                <h2 class="category-title">ملابس رجالية</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <button class="nav-arrow left hidden men-left-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                
+                <div class="products-container men-products-container">
+                    <div class="products-scroll men-products-scroll">
+                        <!-- Product 1 -->
+                        <div class="product-item" data-product-id="men1">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="قميص رسمي">
+                            </div>
+                            <div class="product-name">قميص رسمي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">349.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">S</span>
+                                <span class="size-option">M</span>
+                                <span class="size-option">L</span>
+                                <span class="size-option">XL</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-item" data-product-id="men2">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="شورت صيفي">
+                            </div>
+                            <div class="product-name">شورت صيفي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">299.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">M</span>
+                                <span class="size-option">L</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-item" data-product-id="men3">
+                            <div class="sold-out-badge">نفذ</div>
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت رياضي">
+                            </div>
+                            <div class="product-name">جاكيت رياضي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">179.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">L</span>
+                                <span class="size-option">XL</span>
+                            </div>
+                            <button class="add-to-cart" disabled>نفذ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="nav-arrow right men-right-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Women's Category -->
+        <section class="category-section" id="womenCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-women">عرض الكل</a>
+                <h2 class="category-title">ملابس نسائية</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <button class="nav-arrow left hidden women-left-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                
+                <div class="products-container women-products-container">
+                    <div class="products-scroll women-products-scroll">
+                        <!-- Product 1 -->
+                        <div class="product-item" data-product-id="women1">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="فستان صيفي">
+                            </div>
+                            <div class="product-name">فستان صيفي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">249.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">S</span>
+                                <span class="size-option">M</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-item" data-product-id="women2">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بلوزة حرير">
+                            </div>
+                            <div class="product-name">بلوزة حرير</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">399.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">M</span>
+                                <span class="size-option">L</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-item" data-product-id="women3">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جينز نسائي">
+                            </div>
+                            <div class="product-name">جينز نسائي</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">179.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">28</span>
+                                <span class="size-option">30</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="nav-arrow right women-right-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Children's Category -->
+        <section class="category-section" id="childrenCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-children">عرض الكل</a>
+                <h2 class="category-title">ملابس أطفال</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <button class="nav-arrow left hidden children-left-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                
+                <div class="products-container children-products-container">
+                    <div class="products-scroll children-products-scroll">
+                        <!-- Product 1 -->
+                        <div class="product-item" data-product-id="children1">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="تيشيرت أطفال">
+                            </div>
+                            <div class="product-name">تيشيرت أطفال</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">149.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">4 سنوات</span>
+                                <span class="size-option">6 سنوات</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-item" data-product-id="children2">
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بنطال أطفال">
+                            </div>
+                            <div class="product-name">بنطال أطفال</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">99.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">4 سنوات</span>
+                                <span class="size-option">6 سنوات</span>
+                            </div>
+                            <button class="add-to-cart">أضف إلى السلة</button>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-item" data-product-id="children3">
+                            <div class="sold-out-badge">نفذ</div>
+                            <div class="product-image">
+                                <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت أطفال">
+                            </div>
+                            <div class="product-name">جاكيت أطفال</div>
+                            <div class="product-designer">MG</div>
+                            <div class="product-price">129.99 جنيه</div>
+                            <div class="product-sizes">
+                                <span class="size-option selected">4 سنوات</span>
+                                <span class="size-option">6 سنوات</span>
+                                <span class="size-option">8 سنوات</span>
+                            </div>
+                            <button class="add-to-cart" disabled>نفذ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="nav-arrow right children-right-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Category Full Views -->
+    <!-- Best Sellers Full View -->
+    <section class="category-full-view" id="bestFullView">
+        <a href="#" class="back-to-categories back-to-best">← العودة إلى الفئات</a>
+        <h2 class="category-title">الأكثر مبيعاً</h2>
+        <div class="category-products-grid">
+            <!-- Product 1 -->
+            <div class="product-item" data-product-id="best1">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="تيشيرت رجالي">
+                </div>
+                <div class="product-name">تيشيرت رجالي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">199.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">S</span>
+                    <span class="size-option">M</span>
+                    <span class="size-option">L</span>
+                    <span class="size-option">XL</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-item" data-product-id="best2">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بلوزة نسائية">
+                </div>
+                <div class="product-name">بلوزة نسائية</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">149.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">S</span>
+                    <span class="size-option">M</span>
+                    <span class="size-option">L</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-item" data-product-id="best3">
+                <div class="sold-out-badge">نفذ</div>
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت جلد">
+                </div>
+                <div class="product-name">جاكيت جلد</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">249.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">M</span>
+                    <span class="size-option">L</span>
+                </div>
+                <button class="add-to-cart" disabled>نفذ</button>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-item" data-product-id="best4">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بنطال جينز">
+                </div>
+                <div class="product-name">بنطال جينز</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">99.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">28</span>
+                    <span class="size-option">30</span>
+                    <span class="size-option">32</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Men's Full View -->
+    <section class="category-full-view" id="menFullView">
+        <a href="#" class="back-to-categories back-to-men">← العودة إلى الفئات</a>
+        <h2 class="category-title">ملابس رجالية</h2>
+        <div class="category-products-grid">
+            <!-- Product 1 -->
+            <div class="product-item" data-product-id="men1">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="قميص رسمي">
+                </div>
+                <div class="product-name">قميص رسمي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">349.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">S</span>
+                    <span class="size-option">M</span>
+                    <span class="size-option">L</span>
+                    <span class="size-option">XL</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-item" data-product-id="men2">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="شورت صيفي">
+                </div>
+                <div class="product-name">شورت صيفي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">299.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">M</span>
+                    <span class="size-option">L</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-item" data-product-id="men3">
+                <div class="sold-out-badge">نفذ</div>
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت رياضي">
+                </div>
+                <div class="product-name">جاكيت رياضي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">179.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">L</span>
+                    <span class="size-option">XL</span>
+                </div>
+                <button class="add-to-cart" disabled>نفذ</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Women's Full View -->
+    <section class="category-full-view" id="womenFullView">
+        <a href="#" class="back-to-categories back-to-women">← العودة إلى الفئات</a>
+        <h2 class="category-title">ملابس نسائية</h2>
+        <div class="category-products-grid">
+            <!-- Product 1 -->
+            <div class="product-item" data-product-id="women1">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="فستان صيفي">
+                </div>
+                <div class="product-name">فستان صيفي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">249.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">S</span>
+                    <span class="size-option">M</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-item" data-product-id="women2">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بلوزة حرير">
+                </div>
+                <div class="product-name">بلوزة حرير</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">399.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">M</span>
+                    <span class="size-option">L</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-item" data-product-id="women3">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جينز نسائي">
+                </div>
+                <div class="product-name">جينز نسائي</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">179.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">28</span>
+                    <span class="size-option">30</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Children's Full View -->
+    <section class="category-full-view" id="childrenFullView">
+        <a href="#" class="back-to-categories back-to-children">← العودة إلى الفئات</a>
+        <h2 class="category-title">ملابس أطفال</h2>
+        <div class="category-products-grid">
+            <!-- Product 1 -->
+            <div class="product-item" data-product-id="children1">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="تيشيرت أطفال">
+                </div>
+                <div class="product-name">تيشيرت أطفال</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">149.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">4 سنوات</span>
+                    <span class="size-option">6 سنوات</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-item" data-product-id="children2">
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="بنطال أطفال">
+                </div>
+                <div class="product-name">بنطال أطفال</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">99.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">4 سنوات</span>
+                    <span class="size-option">6 سنوات</span>
+                </div>
+                <button class="add-to-cart">أضف إلى السلة</button>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-item" data-product-id="children3">
+                <div class="sold-out-badge">نفذ</div>
+                <div class="product-image">
+                    <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="جاكيت أطفال">
+                </div>
+                <div class="product-name">جاكيت أطفال</div>
+                <div class="product-designer">MG</div>
+                <div class="product-price">129.99 جنيه</div>
+                <div class="product-sizes">
+                    <span class="size-option selected">4 سنوات</span>
+                    <span class="size-option">6 سنوات</span>
+                    <span class="size-option">8 سنوات</span>
+                </div>
+                <button class="add-to-cart" disabled>نفذ</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Product Details Modal -->
+    <div class="product-details-modal" id="productDetailsModal">
+        <div class="product-details-header">
+            <button class="product-details-close" id="closeProductDetails">&times;</button>
+        </div>
+        <div class="product-details-content">
+            <div class="product-details-images">
+                <img src="" alt="Product Image" class="product-main-image" id="productMainImage">
+                <div class="product-thumbnails" id="productThumbnails">
+                    <!-- Thumbnails will be added here dynamically -->
+                </div>
+            </div>
+            <div class="product-details-info">
+                <h1 class="product-details-name" id="productDetailsName"></h1>
+                <p class="product-details-designer" id="productDetailsDesigner"></p>
+                <p class="product-details-price" id="productDetailsPrice"></p>
+                <div class="product-details-sizes" id="productDetailsSizes">
+                    <!-- Sizes will be added here dynamically -->
+                </div>
+                <p class="product-details-description" id="productDetailsDescription">
+                    وصف تجريبي للمنتج. هذا النص هو مجرد مثال لوصف المنتج وسيتم استبداله بالوصف الحقيقي.
+                </p>
+                <button class="product-details-add-to-cart" id="addToCartFromDetails">أضف إلى السلة</button>
+                <a href="#" class="back-to-home" id="backToHome">العودة إلى الصفحة الرئيسية</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-header">
+            <h3>طلباتك</h3>
+            <button class="checkout-close" id="closeCheckoutModal">&times;</button>
+        </div>
+        <div class="checkout-content">
+            <div class="order-summary" id="orderSummary">
+                <!-- Order items will be added here -->
+            </div>
+            <div id="emptyCartMessage" class="empty-cart-message">
+                سلة التسوق فارغة
+            </div>
+            <div class="order-total" id="orderTotal">
+                الإجمالي: 0 جنيه
+            </div>
+            <a href="#" class="product-details-add-to-cart" id="whatsappCheckout">إتمام الطلب عبر واتساب</a>
+            <a href="#" class="back-to-home" id="continueShopping">مواصلة التسوق</a>
+        </div>
+    </div>
+    
+    <!-- Footer - Updated with copyright -->
+    <footer class="footer">
+        <div class="footer__bottom">
+            &copy; 2025 MG Fashion. جميع الحقوق محفوظة.<br>
+            تصميم وتطوير بواسطة MG
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+        <!-- JavaScript -->
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
     // Simple fade slideshow
     const slides = document.querySelectorAll('.hero-slide');
     let currentSlide = 0;
