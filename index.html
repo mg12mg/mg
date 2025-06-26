@@ -1603,6 +1603,7 @@
     </footer>
 
     <!-- JavaScript -->
+        <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Simple fade slideshow
@@ -1672,12 +1673,46 @@
                 });
             });
             
-            // Initialize all category carousels with touch support disabled
-            initCategoryCarousel('best');
-            initCategoryCarousel('men');
-            initCategoryCarousel('women');
-            initCategoryCarousel('children');
+            // Improved scrolling behavior for product items
+            const productItems = document.querySelectorAll('.product-item');
             
+            productItems.forEach(item => {
+                let startX, startY;
+                let isScrolling = false;
+                
+                item.addEventListener('touchstart', function(e) {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    isScrolling = false;
+                }, { passive: true });
+                
+                item.addEventListener('touchmove', function(e) {
+                    if (!startX || !startY) return;
+                    
+                    const xDiff = Math.abs(e.touches[0].clientX - startX);
+                    const yDiff = Math.abs(e.touches[0].clientY - startY);
+                    
+                    if (!isScrolling) {
+                        if (yDiff > xDiff) {
+                            // Vertical scroll - allow it
+                            isScrolling = true;
+                            return;
+                        } else {
+                            // Horizontal scroll - prevent it
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+                }, { passive: false });
+                
+                item.addEventListener('touchend', function() {
+                    startX = null;
+                    startY = null;
+                    isScrolling = false;
+                }, { passive: true });
+            });
+            
+            // Initialize all category carousels with arrow navigation only
             function initCategoryCarousel(category) {
                 const container = document.querySelector(`.${category}-products-container`);
                 const scroll = document.querySelector(`.${category}-products-scroll`);
@@ -1687,40 +1722,40 @@
                 
                 if (!container || !scroll || !leftArrow || !rightArrow || productItems.length === 0) return;
                 
-                const productWidth = productItems[0].offsetWidth + 15; // width + gap
+                const productWidth = productItems[0].offsetWidth + 15;
                 let currentPosition = 0;
                 const maxScroll = scroll.scrollWidth - container.offsetWidth;
                 
-                // Function to update arrow visibility
                 function updateArrows() {
                     leftArrow.classList.toggle('hidden', currentPosition <= 0);
                     rightArrow.classList.toggle('hidden', currentPosition >= maxScroll);
                 }
                 
-                // Left arrow click handler
                 leftArrow.addEventListener('click', () => {
                     currentPosition = Math.max(0, currentPosition - (productWidth * 2));
                     scroll.style.transform = `translateX(-${currentPosition}px)`;
                     updateArrows();
                 });
                 
-                // Right arrow click handler
                 rightArrow.addEventListener('click', () => {
                     currentPosition = Math.min(maxScroll, currentPosition + (productWidth * 2));
                     scroll.style.transform = `translateX(-${currentPosition}px)`;
                     updateArrows();
                 });
                 
-                // Initialize arrows
                 updateArrows();
                 
-                // Handle window resize
                 window.addEventListener('resize', () => {
                     currentPosition = 0;
                     scroll.style.transform = `translateX(0)`;
                     updateArrows();
                 });
             }
+            
+            initCategoryCarousel('best');
+            initCategoryCarousel('men');
+            initCategoryCarousel('women');
+            initCategoryCarousel('children');
             
             // View All/Less functionality for each category
             setupCategoryView('best');
@@ -1740,8 +1775,6 @@
                     e.preventDefault();
                     categorySection.style.display = 'none';
                     fullViewSection.classList.add('active');
-                    
-                    // Scroll to the full view section
                     fullViewSection.scrollIntoView({ behavior: 'smooth' });
                 });
                 
@@ -1749,13 +1782,11 @@
                     e.preventDefault();
                     fullViewSection.classList.remove('active');
                     categorySection.style.display = 'block';
-                    
-                    // Scroll back to the category section
                     categorySection.scrollIntoView({ behavior: 'smooth' });
                 });
             }
             
-            // Category photo links - now goes directly to full view
+            // Category photo links
             document.getElementById('menCategoryLink').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.getElementById('menCategory').style.display = 'none';
@@ -1901,7 +1932,6 @@
             // Open product details when clicking on a product
             document.querySelectorAll('.product-item').forEach(item => {
                 item.addEventListener('click', function(e) {
-                    // Don't open if clicking on add to cart button or sold out badge
                     if (e.target.classList.contains('add-to-cart') || 
                         e.target.classList.contains('sold-out-badge') ||
                         e.target.classList.contains('size-option')) {
@@ -1919,16 +1949,13 @@
                 const product = products[productId];
                 if (!product) return;
                 
-                // Set product info
                 document.getElementById('productDetailsName').textContent = product.name;
                 document.getElementById('productDetailsDesigner').textContent = product.designer;
                 document.getElementById('productDetailsPrice').textContent = product.price;
                 document.getElementById('productDetailsDescription').textContent = product.description;
                 
-                // Set main image
                 document.getElementById('productMainImage').src = product.images[0];
                 
-                // Create thumbnails
                 const thumbnailsContainer = document.getElementById('productThumbnails');
                 thumbnailsContainer.innerHTML = '';
                 product.images.forEach((image, index) => {
@@ -1944,7 +1971,6 @@
                     thumbnailsContainer.appendChild(thumbnail);
                 });
                 
-                // Create size options
                 const sizesContainer = document.getElementById('productDetailsSizes');
                 sizesContainer.innerHTML = '';
                 product.sizes.forEach(size => {
@@ -1959,10 +1985,8 @@
                     sizesContainer.appendChild(sizeOption);
                 });
                 
-                // Set product ID on content for add to cart
                 document.querySelector('.product-details-content').setAttribute('data-product-id', productId);
                 
-                // Disable add to cart if sold out
                 const addToCartBtn = document.getElementById('addToCartFromDetails');
                 if (product.inStock) {
                     addToCartBtn.disabled = false;
@@ -1972,12 +1996,10 @@
                     addToCartBtn.textContent = 'نفذ';
                 }
                 
-                // Show modal
                 document.getElementById('productDetailsModal').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
             }
             
-            // Close product details
             document.getElementById('closeProductDetails').addEventListener('click', function() {
                 document.getElementById('productDetailsModal').classList.remove('active');
                 document.getElementById('overlay').classList.remove('active');
@@ -1990,19 +2012,15 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             
-            // Size selection functionality
             document.querySelectorAll('.size-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    // Remove selected class from siblings in same product
                     this.parentElement.querySelectorAll('.size-option').forEach(el => {
                         el.classList.remove('selected');
                     });
-                    // Add selected class to clicked option
                     this.classList.add('selected');
                 });
             });
             
-            // Add to cart functionality
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', function() {
                     if (this.disabled) return;
@@ -2013,13 +2031,10 @@
                     
                     if (!product) return;
                     
-                    // Get selected size
                     const selectedSize = productItem.querySelector('.size-option.selected').textContent;
                     
-                    // Add to cart
                     addToCart(productId, product, selectedSize);
                     
-                    // Animation feedback
                     const originalText = this.textContent;
                     this.textContent = 'تمت الإضافة!';
                     this.style.backgroundColor = '#D4AF37';
@@ -2033,7 +2048,6 @@
                 });
             });
             
-            // Add to cart from product details
             document.getElementById('addToCartFromDetails').addEventListener('click', function() {
                 if (this.disabled) return;
                 
@@ -2042,13 +2056,10 @@
                 
                 if (!product) return;
                 
-                // Get selected size
                 const selectedSize = document.querySelector('.product-details-size.selected').textContent;
                 
-                // Add to cart
                 addToCart(productId, product, selectedSize);
                 
-                // Animation feedback
                 const originalText = this.textContent;
                 this.textContent = 'تمت الإضافة!';
                 this.style.backgroundColor = '#D4AF37';
@@ -2060,7 +2071,6 @@
                     this.style.color = '';
                 }, 1000);
                 
-                // Close modal after adding to cart
                 setTimeout(() => {
                     document.getElementById('productDetailsModal').classList.remove('active');
                     document.getElementById('overlay').classList.remove('active');
@@ -2068,7 +2078,6 @@
             });
             
             function addToCart(productId, product, size) {
-                // Check if product already in cart with same size
                 const existingItem = cart.find(item => item.id === productId && item.size === size);
                 
                 if (existingItem) {
@@ -2084,34 +2093,26 @@
                     });
                 }
                 
-                // Update cart count
                 updateCartCount();
             }
             
-            // Cart icon click - show checkout modal
             document.getElementById('cartIcon').addEventListener('click', function() {
-                // Update order summary
                 updateOrderSummary();
-                
-                // Show checkout modal
                 document.getElementById('checkoutModal').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
             });
             
-            // Close checkout modal
             document.getElementById('closeCheckoutModal').addEventListener('click', function() {
                 document.getElementById('checkoutModal').classList.remove('active');
                 document.getElementById('overlay').classList.remove('active');
             });
             
-            // Continue shopping
             document.getElementById('continueShopping').addEventListener('click', function(e) {
                 e.preventDefault();
                 document.getElementById('checkoutModal').classList.remove('active');
                 document.getElementById('overlay').classList.remove('active');
             });
             
-            // WhatsApp checkout
             document.getElementById('whatsappCheckout').addEventListener('click', function(e) {
                 e.preventDefault();
                 
@@ -2120,7 +2121,6 @@
                     return;
                 }
                 
-                // Format order message
                 let message = "مرحبًا ب MG،\n\nأود تقديم طلب:\n\n";
                 
                 cart.forEach(item => {
@@ -2129,17 +2129,12 @@
                 
                 message += `\nالإجمالي: ${calculateTotal()} جنيه\n\nالرجاء تأكيد طلبي. رقم الطلب: #${generateOrderNumber()}`;
                 
-                // Encode message for URL
                 const encodedMessage = encodeURIComponent(message);
-                
-                // Open WhatsApp
                 window.open(`https://wa.me/201123271234?text=${encodedMessage}`, '_blank');
                 
-                // Clear cart
                 cart.length = 0;
                 updateCartCount();
                 
-                // Close modal
                 document.getElementById('checkoutModal').classList.remove('active');
                 document.getElementById('overlay').classList.remove('active');
             });
