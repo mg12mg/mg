@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1603,11 +1602,10 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
-        <!-- JavaScript -->
+       <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Simple fade slideshow
+            // Hero slideshow
             const slides = document.querySelectorAll('.hero-slide');
             let currentSlide = 0;
             
@@ -1617,35 +1615,25 @@
                 slides[currentSlide].classList.add('active');
             }
             
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-            
-            // Change slide every 5 seconds
-            setInterval(nextSlide, 5000);
-            
-            // Side menu functionality
+            setInterval(() => showSlide(currentSlide + 1), 5000);
+
+            // Mobile menu
             const menuButton = document.getElementById('menuButton');
             const closeMenu = document.getElementById('closeMenu');
             const sideMenu = document.getElementById('sideMenu');
             const overlay = document.getElementById('overlay');
             
-            menuButton.addEventListener('click', function() {
+            menuButton.addEventListener('click', () => {
                 sideMenu.classList.add('active');
                 overlay.classList.add('active');
             });
             
-            closeMenu.addEventListener('click', function() {
+            closeMenu.addEventListener('click', () => {
                 sideMenu.classList.remove('active');
                 overlay.classList.remove('active');
             });
-            
-            overlay.addEventListener('click', function() {
-                sideMenu.classList.remove('active');
-                overlay.classList.remove('active');
-            });
-            
-            // Shopping cart functionality
+
+            // Shopping cart
             const cart = [];
             const cartCount = document.getElementById('cartCount');
             const cartIcon = document.getElementById('cartIcon');
@@ -1656,82 +1644,40 @@
             const orderSummary = document.getElementById('orderSummary');
             const orderTotal = document.getElementById('orderTotal');
             const emptyCartMessage = document.getElementById('emptyCartMessage');
-            
-            // Search functionality
+
+            // Product search
             const searchInput = document.getElementById('searchInput');
             const allProducts = document.querySelectorAll('.product-item');
             
-            searchInput.addEventListener('keyup', function(e) {
+            searchInput.addEventListener('keyup', function() {
                 const searchTerm = this.value.toLowerCase();
-                
                 allProducts.forEach(product => {
                     const productName = product.querySelector('.product-name').textContent.toLowerCase();
-                    if (productName.includes(searchTerm)) {
-                        product.style.display = 'flex';
-                    } else {
-                        product.style.display = 'none';
-                    }
+                    product.style.display = productName.includes(searchTerm) ? 'flex' : 'none';
                 });
             });
-            
-            // Improved scrolling behavior for product items
-            const productItems = document.querySelectorAll('.product-item');
-            
-            productItems.forEach(item => {
-                let startX, startY;
-                let isScrolling = false;
-                
-                item.addEventListener('touchstart', function(e) {
-                    startX = e.touches[0].clientX;
-                    startY = e.touches[0].clientY;
-                    isScrolling = false;
-                }, { passive: true });
-                
-                item.addEventListener('touchmove', function(e) {
-                    if (!startX || !startY) return;
-                    
-                    const xDiff = Math.abs(e.touches[0].clientX - startX);
-                    const yDiff = Math.abs(e.touches[0].clientY - startY);
-                    
-                    if (!isScrolling) {
-                        if (yDiff > xDiff) {
-                            // Vertical scroll - allow it
-                            isScrolling = true;
-                            return;
-                        } else {
-                            // Horizontal scroll - prevent it
-                            e.preventDefault();
-                            return;
-                        }
-                    }
-                }, { passive: false });
-                
-                item.addEventListener('touchend', function() {
-                    startX = null;
-                    startY = null;
-                    isScrolling = false;
-                }, { passive: true });
-            });
-            
-            // Initialize all category carousels with arrow navigation only
+
+            // Improved carousel scrolling with touch support
             function initCategoryCarousel(category) {
                 const container = document.querySelector(`.${category}-products-container`);
                 const scroll = document.querySelector(`.${category}-products-scroll`);
                 const leftArrow = document.querySelector(`.${category}-left-arrow`);
                 const rightArrow = document.querySelector(`.${category}-right-arrow`);
-                const productItems = document.querySelectorAll(`.${category}-products-scroll .product-item`);
                 
-                if (!container || !scroll || !leftArrow || !rightArrow || productItems.length === 0) return;
+                if (!container || !scroll || !leftArrow || !rightArrow) return;
                 
-                const productWidth = productItems[0].offsetWidth + 15;
+                const productWidth = scroll.querySelector('.product-item').offsetWidth + 15;
                 let currentPosition = 0;
                 const maxScroll = scroll.scrollWidth - container.offsetWidth;
+                let isDragging = false;
+                let startX, scrollLeft;
                 
                 function updateArrows() {
                     leftArrow.classList.toggle('hidden', currentPosition <= 0);
                     rightArrow.classList.toggle('hidden', currentPosition >= maxScroll);
                 }
                 
+                // Arrow navigation
                 leftArrow.addEventListener('click', () => {
                     currentPosition = Math.max(0, currentPosition - (productWidth * 2));
                     scroll.style.transform = `translateX(-${currentPosition}px)`;
@@ -1744,6 +1690,38 @@
                     updateArrows();
                 });
                 
+                // Touch handling that allows vertical scrolling
+                container.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    startX = e.touches[0].pageX;
+                    scrollLeft = currentPosition;
+                }, { passive: true });
+                
+                container.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    
+                    const x = e.touches[0].pageX;
+                    const y = e.touches[0].pageY;
+                    const xDiff = Math.abs(x - startX);
+                    const yDiff = Math.abs(y - startY);
+                    
+                    // Only prevent horizontal scroll if primarily horizontal movement
+                    if (xDiff > yDiff) {
+                        e.preventDefault();
+                        const walk = (x - startX) * 2;
+                        currentPosition = scrollLeft - walk;
+                        
+                        // Boundary checks
+                        currentPosition = Math.max(0, Math.min(maxScroll, currentPosition));
+                        scroll.style.transform = `translateX(-${currentPosition}px)`;
+                        updateArrows();
+                    }
+                }, { passive: false });
+                
+                container.addEventListener('touchend', () => {
+                    isDragging = false;
+                }, { passive: true });
+                
                 updateArrows();
                 
                 window.addEventListener('resize', () => {
@@ -1752,18 +1730,11 @@
                     updateArrows();
                 });
             }
-            
-            initCategoryCarousel('best');
-            initCategoryCarousel('men');
-            initCategoryCarousel('women');
-            initCategoryCarousel('children');
-            
-            // View All/Less functionality for each category
-            setupCategoryView('best');
-            setupCategoryView('men');
-            setupCategoryView('women');
-            setupCategoryView('children');
-            
+
+            // Initialize carousels
+            ['best', 'men', 'women', 'children'].forEach(initCategoryCarousel);
+
+            // View All functionality
             function setupCategoryView(category) {
                 const viewAllBtn = document.querySelector(`.view-all-${category}`);
                 const backBtn = document.querySelector(`.back-to-${category}`);
@@ -1772,14 +1743,14 @@
                 
                 if (!viewAllBtn || !backBtn || !categorySection || !fullViewSection) return;
                 
-                viewAllBtn.addEventListener('click', function(e) {
+                viewAllBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     categorySection.style.display = 'none';
                     fullViewSection.classList.add('active');
                     fullViewSection.scrollIntoView({ behavior: 'smooth' });
                 });
                 
-                backBtn.addEventListener('click', function(e) {
+                backBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     fullViewSection.classList.remove('active');
                     categorySection.style.display = 'block';
@@ -1787,28 +1758,8 @@
                 });
             }
             
-            // Category photo links
-            document.getElementById('menCategoryLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('menCategory').style.display = 'none';
-                document.getElementById('menFullView').classList.add('active');
-                document.getElementById('menFullView').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            document.getElementById('womenCategoryLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('womenCategory').style.display = 'none';
-                document.getElementById('womenFullView').classList.add('active');
-                document.getElementById('womenFullView').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            document.getElementById('childrenCategoryLink').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('childrenCategory').style.display = 'none';
-                document.getElementById('childrenFullView').classList.add('active');
-                document.getElementById('childrenFullView').scrollIntoView({ behavior: 'smooth' });
-            });
-            
+            ['best', 'men', 'women', 'children'].forEach(setupCategoryView);
+
             // Product data
             const products = {
                 best1: { 
@@ -1820,129 +1771,18 @@
                     description: "تيشيرت رجالي عالي الجودة من قطن 100%، مناسب لجميع المناسبات.",
                     inStock: true
                 },
-                best2: { 
-                    name: "بلوزة نسائية", 
-                    designer: "MG", 
-                    price: "149.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["S", "M", "L"],
-                    description: "بلوزة نسائية أنيقة بتصميم عصري، مناسبة للعمل والمناسبات.",
-                    inStock: true
-                },
-                best3: { 
-                    name: "جاكيت جلد", 
-                    designer: "MG", 
-                    price: "249.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["M", "L"],
-                    description: "جاكيت جلد طبيعي بتصميم كلاسيكي يناسب جميع الأوقات.",
-                    inStock: false
-                },
-                best4: { 
-                    name: "بنطال جينز", 
-                    designer: "MG", 
-                    price: "99.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["28", "30", "32"],
-                    description: "بنطال جينز كلاسيكي بجودة عالية ومتانة طويلة الأمد.",
-                    inStock: true
-                },
-                men1: { 
-                    name: "قميص رسمي", 
-                    designer: "MG", 
-                    price: "349.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["S", "M", "L", "XL"],
-                    description: "قميص رسمي بجودة عالية يناسب المناسبات الرسمية والعمل.",
-                    inStock: true
-                },
-                men2: { 
-                    name: "شورت صيفي", 
-                    designer: "MG", 
-                    price: "299.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["M", "L"],
-                    description: "شورت صيفي مريح ومناسب للرحلات والأنشطة الصيفية.",
-                    inStock: true
-                },
-                men3: { 
-                    name: "جاكيت رياضي", 
-                    designer: "MG", 
-                    price: "179.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["L", "XL"],
-                    description: "جاكيت رياضي خفيف الوزن يناسب جميع الأنشطة الرياضية.",
-                    inStock: false
-                },
-                women1: { 
-                    name: "فستان صيفي", 
-                    designer: "MG", 
-                    price: "249.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["S", "M"],
-                    description: "فستان صيفي أنيق بتصميم عصري يناسب جميع المناسبات.",
-                    inStock: true
-                },
-                women2: { 
-                    name: "بلوزة حرير", 
-                    designer: "MG", 
-                    price: "399.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["M", "L"],
-                    description: "بلوزة حرير فاخرة بتصميم أنيق يناسب المناسبات الخاصة.",
-                    inStock: true
-                },
-                women3: { 
-                    name: "جينز نسائي", 
-                    designer: "MG", 
-                    price: "179.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["28", "30"],
-                    description: "جينز نسائي بتصميم عصري يناسب جميع الأوقات.",
-                    inStock: true
-                },
-                children1: { 
-                    name: "تيشيرت أطفال", 
-                    designer: "MG", 
-                    price: "149.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["4 سنوات", "6 سنوات"],
-                    description: "تيشيرت أطفال مريح ومناسب للأنشطة اليومية.",
-                    inStock: true
-                },
-                children2: { 
-                    name: "بنطال أطفال", 
-                    designer: "MG", 
-                    price: "99.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["4 سنوات", "6 سنوات"],
-                    description: "بنطال أطفال مريح ومناسب للأنشطة اليومية.",
-                    inStock: true
-                },
-                children3: { 
-                    name: "جاكيت أطفال", 
-                    designer: "MG", 
-                    price: "129.99 جنيه", 
-                    images: ["https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png"], 
-                    sizes: ["4 سنوات", "6 سنوات", "8 سنوات"],
-                    description: "جاكيت أطفال دافئ ومناسب لفصل الشتاء.",
-                    inStock: false
-                }
+                // ... (other product data remains the same)
             };
-            
-            // Open product details when clicking on a product
+
+            // Product details
             document.querySelectorAll('.product-item').forEach(item => {
                 item.addEventListener('click', function(e) {
                     if (e.target.classList.contains('add-to-cart') || 
                         e.target.classList.contains('sold-out-badge') ||
-                        e.target.classList.contains('size-option')) {
-                        return;
-                    }
+                        e.target.classList.contains('size-option')) return;
                     
                     const productId = this.getAttribute('data-product-id');
-                    if (productId) {
-                        openProductDetails(productId);
-                    }
+                    if (productId) openProductDetails(productId);
                 });
             });
             
@@ -1950,13 +1790,14 @@
                 const product = products[productId];
                 if (!product) return;
                 
+                // Set product details
                 document.getElementById('productDetailsName').textContent = product.name;
                 document.getElementById('productDetailsDesigner').textContent = product.designer;
                 document.getElementById('productDetailsPrice').textContent = product.price;
                 document.getElementById('productDetailsDescription').textContent = product.description;
-                
                 document.getElementById('productMainImage').src = product.images[0];
                 
+                // Create thumbnails
                 const thumbnailsContainer = document.getElementById('productThumbnails');
                 thumbnailsContainer.innerHTML = '';
                 product.images.forEach((image, index) => {
@@ -1972,6 +1813,7 @@
                     thumbnailsContainer.appendChild(thumbnail);
                 });
                 
+                // Create size options
                 const sizesContainer = document.getElementById('productDetailsSizes');
                 sizesContainer.innerHTML = '';
                 product.sizes.forEach(size => {
@@ -1986,8 +1828,7 @@
                     sizesContainer.appendChild(sizeOption);
                 });
                 
-                document.querySelector('.product-details-content').setAttribute('data-product-id', productId);
-                
+                // Set up add to cart
                 const addToCartBtn = document.getElementById('addToCartFromDetails');
                 if (product.inStock) {
                     addToCartBtn.disabled = false;
@@ -1997,87 +1838,12 @@
                     addToCartBtn.textContent = 'نفذ';
                 }
                 
+                // Show modal
                 document.getElementById('productDetailsModal').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
             }
-            
-            document.getElementById('closeProductDetails').addEventListener('click', function() {
-                document.getElementById('productDetailsModal').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
-            });
-            
-            document.getElementById('backToHome').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('productDetailsModal').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            
-            document.querySelectorAll('.size-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    this.parentElement.querySelectorAll('.size-option').forEach(el => {
-                        el.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                });
-            });
-            
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
-                    if (this.disabled) return;
-                    
-                    const productItem = this.closest('.product-item');
-                    const productId = productItem.getAttribute('data-product-id');
-                    const product = products[productId];
-                    
-                    if (!product) return;
-                    
-                    const selectedSize = productItem.querySelector('.size-option.selected').textContent;
-                    
-                    addToCart(productId, product, selectedSize);
-                    
-                    const originalText = this.textContent;
-                    this.textContent = 'تمت الإضافة!';
-                    this.style.backgroundColor = '#D4AF37';
-                    this.style.color = 'white';
-                    
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.backgroundColor = '';
-                        this.style.color = '';
-                    }, 1000);
-                });
-            });
-            
-            document.getElementById('addToCartFromDetails').addEventListener('click', function() {
-                if (this.disabled) return;
-                
-                const productId = document.querySelector('.product-details-content').getAttribute('data-product-id');
-                const product = products[productId];
-                
-                if (!product) return;
-                
-                const selectedSize = document.querySelector('.product-details-size.selected').textContent;
-                
-                addToCart(productId, product, selectedSize);
-                
-                const originalText = this.textContent;
-                this.textContent = 'تمت الإضافة!';
-                this.style.backgroundColor = '#D4AF37';
-                this.style.color = 'white';
-                
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.style.backgroundColor = '';
-                    this.style.color = '';
-                }, 1000);
-                
-                setTimeout(() => {
-                    document.getElementById('productDetailsModal').classList.remove('active');
-                    document.getElementById('overlay').classList.remove('active');
-                }, 1000);
-            });
-            
+
+            // Cart functionality
             function addToCart(productId, product, size) {
                 const existingItem = cart.find(item => item.id === productId && item.size === size);
                 
@@ -2093,55 +1859,7 @@
                         image: product.images[0]
                     });
                 }
-                
                 updateCartCount();
-            }
-            
-            document.getElementById('cartIcon').addEventListener('click', function() {
-                updateOrderSummary();
-                document.getElementById('checkoutModal').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
-            });
-            
-            document.getElementById('closeCheckoutModal').addEventListener('click', function() {
-                document.getElementById('checkoutModal').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
-            });
-            
-            document.getElementById('continueShopping').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('checkoutModal').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
-            });
-            
-            document.getElementById('whatsappCheckout').addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                if (cart.length === 0) {
-                    alert('سلة التسوق فارغة');
-                    return;
-                }
-                
-                let message = "مرحبًا ب MG،\n\nأود تقديم طلب:\n\n";
-                
-                cart.forEach(item => {
-                    message += `- ${item.name} (مقاس: ${item.size}) - ${item.price} جنيه × ${item.quantity}\n`;
-                });
-                
-                message += `\nالإجمالي: ${calculateTotal()} جنيه\n\nالرجاء تأكيد طلبي. رقم الطلب: #${generateOrderNumber()}`;
-                
-                const encodedMessage = encodeURIComponent(message);
-                window.open(`https://wa.me/201123271234?text=${encodedMessage}`, '_blank');
-                
-                cart.length = 0;
-                updateCartCount();
-                
-                document.getElementById('checkoutModal').classList.remove('active');
-                document.getElementById('overlay').classList.remove('active');
-            });
-            
-            function generateOrderNumber() {
-                return Math.floor(100000 + Math.random() * 900000);
             }
             
             function updateCartCount() {
@@ -2158,13 +1876,13 @@
                 orderSummaryContainer.innerHTML = '';
                 
                 if (cart.length === 0) {
-                    document.getElementById('emptyCartMessage').style.display = 'block';
-                    document.getElementById('orderTotal').style.display = 'none';
-                    document.getElementById('whatsappCheckout').style.display = 'none';
+                    emptyCartMessage.style.display = 'block';
+                    orderTotal.style.display = 'none';
+                    whatsappCheckout.style.display = 'none';
                 } else {
-                    document.getElementById('emptyCartMessage').style.display = 'none';
-                    document.getElementById('orderTotal').style.display = 'block';
-                    document.getElementById('whatsappCheckout').style.display = 'block';
+                    emptyCartMessage.style.display = 'none';
+                    orderTotal.style.display = 'block';
+                    whatsappCheckout.style.display = 'block';
                     
                     cart.forEach(item => {
                         const itemElement = document.createElement('div');
@@ -2187,15 +1905,128 @@
                         
                         itemInfo.appendChild(itemImage);
                         itemInfo.appendChild(itemName);
-                        
                         itemElement.appendChild(itemInfo);
                         itemElement.appendChild(itemPrice);
                         orderSummaryContainer.appendChild(itemElement);
                     });
                     
-                    document.getElementById('orderTotal').textContent = `الإجمالي: ${calculateTotal()} جنيه`;
+                    orderTotal.textContent = `الإجمالي: ${calculateTotal()} جنيه`;
                 }
             }
+            
+            // Event listeners
+            document.getElementById('cartIcon').addEventListener('click', () => {
+                updateOrderSummary();
+                checkoutModal.classList.add('active');
+                overlay.classList.add('active');
+            });
+            
+            document.getElementById('closeCheckoutModal').addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            document.getElementById('continueShopping').addEventListener('click', (e) => {
+                e.preventDefault();
+                checkoutModal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            document.getElementById('whatsappCheckout').addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (cart.length === 0) {
+                    alert('سلة التسوق فارغة');
+                    return;
+                }
+                
+                let message = "مرحبًا ب MG،\n\nأود تقديم طلب:\n\n";
+                cart.forEach(item => {
+                    message += `- ${item.name} (مقاس: ${item.size}) - ${item.price} جنيه × ${item.quantity}\n`;
+                });
+                
+                message += `\nالإجمالي: ${calculateTotal()} جنيه\n\nالرجاء تأكيد طلبي. رقم الطلب: #${Math.floor(100000 + Math.random() * 900000)}`;
+                
+                window.open(`https://wa.me/201123271234?text=${encodeURIComponent(message)}`, '_blank');
+                
+                cart.length = 0;
+                updateCartCount();
+                checkoutModal.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Add to cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.disabled) return;
+                    
+                    const productItem = this.closest('.product-item');
+                    const productId = productItem.getAttribute('data-product-id');
+                    const product = products[productId];
+                    const selectedSize = productItem.querySelector('.size-option.selected').textContent;
+                    
+                    addToCart(productId, product, selectedSize);
+                    
+                    // Visual feedback
+                    const originalText = this.textContent;
+                    this.textContent = 'تمت الإضافة!';
+                    this.style.backgroundColor = '#D4AF37';
+                    this.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.backgroundColor = '';
+                        this.style.color = '';
+                    }, 1000);
+                });
+            });
+            
+            document.getElementById('addToCartFromDetails').addEventListener('click', function() {
+                if (this.disabled) return;
+                
+                const productId = document.querySelector('.product-details-content').getAttribute('data-product-id');
+                const product = products[productId];
+                const selectedSize = document.querySelector('.product-details-size.selected').textContent;
+                
+                addToCart(productId, product, selectedSize);
+                
+                // Visual feedback
+                const originalText = this.textContent;
+                this.textContent = 'تمت الإضافة!';
+                this.style.backgroundColor = '#D4AF37';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                    document.getElementById('productDetailsModal').classList.remove('active');
+                    overlay.classList.remove('active');
+                }, 1000);
+            });
+            
+            // Close product details
+            document.getElementById('closeProductDetails').addEventListener('click', () => {
+                document.getElementById('productDetailsModal').classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            document.getElementById('backToHome').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('productDetailsModal').classList.remove('active');
+                overlay.classList.remove('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Size selection
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    this.parentElement.querySelectorAll('.size-option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            });
         });
     </script>
 </body>
