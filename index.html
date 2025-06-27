@@ -1,1 +1,1844 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG Egyptian Fashion</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png">
+    <style>
+        :root {
+            --primary: #FFD700;
+            --secondary: #D4AF37;
+            --accent: #47c1bf;
+            --light: #f9fafb;
+            --dark: #212b35;
+            --border: #dfe3e8;
+            --yellow-tap: #FFD700;
+            --red-price: #ff0000;
+            --sold-out: #888;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background-color: white;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+        
+        .header__left-icons,
+        .header__right-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .header__right-icons {
+            justify-content: flex-end;
+        }
+        
+        .header__logo {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .header__logo img {
+            height: 50px;
+            max-width: 100%;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            padding: 5px 10px;
+            width: 120px;
+        }
+        
+        .search-container input {
+            border: none;
+            background: transparent;
+            padding: 5px;
+            width: 100%;
+            outline: none;
+            font-size: 12px;
+        }
+        
+        .search-container i {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .yellow-tap {
+            background-color: var(--yellow-tap);
+            color: var(--dark);
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .header__cart-icon,
+        .header__menu-icon {
+            opacity: 0.8;
+            transform: scale(0.8);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .header__menu-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+        }
+        
+        .header__menu-line {
+            height: 2px;
+            background-color: var(--dark);
+        }
+        
+        .header__menu-line:first-child {
+            width: 22px;
+        }
+        
+        .header__menu-line:nth-child(2) {
+            width: 16px;
+        }
+        
+        .header__menu-line:last-child {
+            width: 22px;
+        }
+        
+        .header__cart {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .header__cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: var(--primary);
+            color: var(--dark);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .side-menu.active {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .close-menu {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .menu-item i {
+            font-size: 18px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        .hero-slideshow {
+            width: 100%;
+            height: 40vh;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .category-section {
+            max-width: 100%;
+            margin: 0 auto 30px;
+            padding: 0 10px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-direction: row-reverse;
+            padding: 0 5px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-left: 10px;
+        }
+        
+        .view-all-btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 6px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .view-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .products-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .products-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light);
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .products-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .products-container::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+        
+        .products-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 6px;
+        }
+        
+        .products-scroll {
+            display: flex;
+            gap: 15px;
+            padding: 0 5px;
+            width: max-content;
+        }
+        
+        .product-item {
+            width: 150px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            height: 100%;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.5s ease;
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .product-image img.active {
+            opacity: 1;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        
+        .product-designer {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        
+        .product-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--red-price);
+            text-align: center;
+            margin: 8px 0;
+        }
+        
+        .product-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 8px 0;
+            justify-content: center;
+        }
+        
+        .size-option {
+            padding: 3px 8px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 10px;
+            cursor: pointer;
+            min-width: 30px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .size-option:hover {
+            border-color: var(--dark);
+        }
+        
+        .size-option.selected {
+            background-color: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 8px;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: auto;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .add-to-cart:disabled {
+            background-color: var(--sold-out);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .sold-out-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--sold-out);
+            color: white;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        .category-full-view {
+            display: none;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        
+        .category-full-view.active {
+            display: block;
+        }
+        
+        .category-products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .back-to-categories {
+            display: inline-block;
+            margin-bottom: 15px;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 6px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .back-to-categories:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .product-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1002;
+            overflow-y: auto;
+            display: none;
+            padding: 15px;
+        }
+        
+        .product-details-modal.active {
+            display: block;
+        }
+        
+        .product-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .product-details-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .product-details-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .product-details-images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .product-main-image {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            background-color: #f9f9f9;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .product-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .product-thumbnail.active {
+            border-color: var(--primary);
+        }
+        
+        .product-details-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .product-details-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .product-details-designer {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .product-details-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--red-price);
+        }
+        
+        .product-details-description {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .product-details-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        
+        .product-details-size {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 36px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .product-details-size:hover {
+            border-color: var(--dark);
+        }
+        
+        .product-details-size.selected {
+            background-color: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .product-details-add-to-cart {
+            padding: 12px;
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            border: 1px solid var(--dark);
+            margin-top: 15px;
+        }
+        
+        .product-details-add-to-cart:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .product-details-add-to-cart:disabled {
+            background-color: var(--sold-out);
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .back-to-home {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 8px 15px;
+            border-radius: 0;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 12px;
+            border: 1px solid var(--dark);
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .checkout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1002;
+            overflow-y: auto;
+            display: none;
+            padding: 15px;
+        }
+        
+        .checkout-modal.active {
+            display: block;
+        }
+        
+        .checkout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .checkout-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .checkout-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .order-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .order-item-image {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+        
+        .order-item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .order-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .order-item-size {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .order-total {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: right;
+        }
+        
+        .empty-cart-message {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .footer {
+            padding: 15px;
+            background-color: transparent;
+        }
+        
+        .footer__bottom {
+            max-width: 100%;
+            margin: 0 auto;
+            padding-top: 15px;
+            font-size: 11px;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                height: 80px;
+            }
+            
+            .header__logo img {
+                height: 60px;
+            }
+            
+            .search-container {
+                width: 150px;
+                padding: 5px 12px;
+            }
+            
+            .search-container input {
+                font-size: 14px;
+            }
+            
+            .hero-slideshow {
+                height: 50vh;
+            }
+            
+            .category-products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .product-item {
+                width: 180px;
+            }
+            
+            .product-image {
+                height: 180px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .category-products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .product-details-content {
+                flex-direction: row;
+            }
+            
+            .product-details-images {
+                flex: 1;
+            }
+            
+            .product-details-info {
+                flex: 1;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header__left-icons">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search..." id="searchInput">
+            </div>
+        </div>
+        
+        <div class="header__logo">
+            <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="MG Egyptian Fashion">
+        </div>
+        
+        <div class="header__right-icons">
+            <div class="header__cart" id="cartIcon">
+                <button class="header__cart-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </button>
+                <span class="header__cart-count" id="cartCount">0</span>
+            </div>
+            <button class="header__menu-icon" id="menuButton">
+                <div class="header__menu-line"></div>
+                <div class="header__menu-line"></div>
+                <div class="header__menu-line"></div>
+            </button>
+        </div>
+    </header>
+    
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>Menu</h3>
+            <button class="close-menu" id="closeMenu">&times;</button>
+        </div>
+        <div class="menu-items">
+            <a href="https://wa.me/201123271234" class="menu-item" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100050631903021" class="menu-item" target="_blank">
+                <i class="fab fa-facebook"></i>
+                <span>Facebook</span>
+            </a>
+            <a href="https://www.instagram.com/mg_fashion6?igsh=NjJ3b2M0ZmdjbnZo&utm_source=qr" class="menu-item" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-info-circle"></i>
+                <span>About Us</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="yellow-tap">
+       شحن مجاني علي اوردرات اكتر من 2000 جنية
+    </div>
+    
+    <div class="hero-slideshow">
+        <div class="hero-slide active">
+            <img src="https://i.postimg.cc/RC3qgr4W/9fe22c3e-d901-427d-8392-bffb232c1ba1.jpg" alt="MG Egyptian Fashion">
+        </div>
+        <div class="hero-slide">
+            <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="MG Egyptian Fashion">
+        </div>
+        <div class="hero-slide">
+            <img src="https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg" alt="MG Egyptian Fashion">
+        </div>
+    </div>
+    
+    <div class="categories-container">
+        <div class="category-section">
+            <div class="category-photos-container">
+                <div class="product-item category-photo-item" id="menCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="Men's Clothing">
+                    </div>
+                    <div class="product-name">Men's Collection</div>
+                    <button class="add-to-cart">Shop Now</button>
+                </div>
+                
+                <div class="product-item category-photo-item" id="womenCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg" alt="Women's Clothing">
+                    </div>
+                    <div class="product-name">Women's Collection</div>
+                    <button class="add-to-cart">Shop Now</button>
+                </div>
+                
+                <div class="product-item category-photo-item" id="childrenCategoryLink">
+                    <div class="product-image">
+                        <img src="https://i.postimg.cc/2yyBF23b/c6b54a72-05aa-469e-98ef-49af2c8ae733.jpg" alt="Children's Clothing">
+                    </div>
+                    <div class="product-name">Kids Collection</div>
+                    <button class="add-to-cart">Shop Now</button>
+                </div>
+            </div>
+        </div>
+        
+        <section class="category-section" id="bestSellersCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-best">View All</a>
+                <h2 class="category-title">Best Sellers</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <div class="products-container best-products-container">
+                    <div class="products-scroll best-products-scroll" id="bestProductsScroll"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category-section" id="menCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-men">View All</a>
+                <h2 class="category-title">Men's Collection</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <div class="products-container men-products-container">
+                    <div class="products-scroll men-products-scroll" id="menProductsScroll"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category-section" id="womenCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-women">View All</a>
+                <h2 class="category-title">Women's Collection</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <div class="products-container women-products-container">
+                    <div class="products-scroll women-products-scroll" id="womenProductsScroll"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="category-section" id="childrenCategory">
+            <div class="category-header">
+                <a href="#" class="view-all-btn view-all-children">View All</a>
+                <h2 class="category-title">Kids Collection</h2>
+            </div>
+            
+            <div class="products-wrapper">
+                <div class="products-container children-products-container">
+                    <div class="products-scroll children-products-scroll" id="childrenProductsScroll"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <section class="category-full-view" id="bestFullView">
+        <a href="#" class="back-to-categories back-to-best">← Back to Categories</a>
+        <h2 class="category-title">Best Sellers</h2>
+        <div class="category-products-grid" id="bestFullViewGrid"></div>
+    </section>
+    
+    <section class="category-full-view" id="menFullView">
+        <a href="#" class="back-to-categories back-to-men">← Back to Categories</a>
+        <h2 class="category-title">Men's Collection</h2>
+        <div class="category-products-grid" id="menFullViewGrid"></div>
+    </section>
+    
+    <section class="category-full-view" id="womenFullView">
+        <a href="#" class="back-to-categories back-to-women">← Back to Categories</a>
+        <h2 class="category-title">Women's Collection</h2>
+        <div class="category-products-grid" id="womenFullViewGrid"></div>
+    </section>
+    
+    <section class="category-full-view" id="childrenFullView">
+        <a href="#" class="back-to-categories back-to-children">← Back to Categories</a>
+        <h2 class="category-title">Kids Collection</h2>
+        <div class="category-products-grid" id="childrenFullViewGrid"></div>
+    </section>
+    
+    <div class="product-details-modal" id="productDetailsModal">
+        <div class="product-details-header">
+            <button class="product-details-close" id="closeProductDetails">&times;</button>
+        </div>
+        <div class="product-details-content">
+            <div class="product-details-images">
+                <img src="" alt="Product Image" class="product-main-image" id="productMainImage">
+                <div class="product-thumbnails" id="productThumbnails"></div>
+            </div>
+            <div class="product-details-info">
+                <h1 class="product-details-name" id="productDetailsName"></h1>
+                <p class="product-details-designer" id="productDetailsDesigner"></p>
+                <p class="product-details-price" id="productDetailsPrice"></p>
+                <div class="product-details-sizes" id="productDetailsSizes"></div>
+                <p class="product-details-description" id="productDetailsDescription"></p>
+                <button class="product-details-add-to-cart" id="addToCartFromDetails">Add to Cart</button>
+                <a href="#" class="back-to-home" id="backToHome">Back to Home</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-header">
+            <h3>Your Order</h3>
+            <button class="checkout-close" id="closeCheckoutModal">&times;</button>
+        </div>
+        <div class="checkout-content">
+            <div class="order-summary" id="orderSummary"></div>
+            <div id="emptyCartMessage" class="empty-cart-message">Your cart is empty</div>
+            <div class="order-total" id="orderTotal">Total: 0 EGP</div>
+            <a href="#" class="product-details-add-to-cart" id="whatsappCheckout">Complete Order via WhatsApp</a>
+            <a href="#" class="back-to-home" id="continueShopping">Continue Shopping</a>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer__bottom">
+            &copy; 2025 MG Egyptian Fashion. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Centralized Product Database
+        const productDatabase = {
+            categories: ['best', 'men', 'women', 'children'],
+            products: [
+                {
+                    id: "best1",
+                    categories: ["best", "men"],
+                    name: "Men's T-Shirt", 
+                    designer: "MG", 
+                    price: 199.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg"
+                    ],
+                    sizes: ["S", "M", "L", "XL"],
+                    description: "High-quality men's t-shirt made from 100% cotton, suitable for all occasions.",
+                    inStock: true
+                },
+              
+                {
+                    id: "best3",
+                    categories: ["best", "men"],
+                    name: "Leather Jacket",
+                    designer: "MG",
+                    price: 249.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
+                    ],
+                    sizes: ["M", "L"],
+                    description: "Classic leather jacket with a timeless design that suits all occasions.",
+                    inStock: false
+                },
+                {
+                    id: "best4",
+                    categories: ["best", "men"],
+                    name: "Men's Jeans",
+                    designer: "MG",
+                    price: 99.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/2yyBF23b/c6b54a72-05aa-469e-98ef-49af2c8ae733.jpg"
+                    ],
+                    sizes: ["28", "30", "32"],
+                    description: "Classic jeans with high quality and long-lasting durability.",
+                    inStock: true
+                },
+                {
+                    id: "men1",
+                    categories: ["men"],
+                    name: "Formal Shirt",
+                    designer: "MG",
+                    price: 349.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg"
+                    ],
+                    sizes: ["S", "M", "L", "XL"],
+                    description: "High-quality formal shirt suitable for business and formal occasions.",
+                    inStock: true
+                },
+                {
+                    id: "men2",
+                    categories: ["men"],
+                    name: "Summer Shorts",
+                    designer: "MG",
+                    price: 299.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg"
+                    ],
+                    sizes: ["M", "L"],
+                    description: "Comfortable summer shorts perfect for trips and summer activities.",
+                    inStock: true
+                },
+                {
+                    id: "men3",
+                    categories: ["men"],
+                    name: "Sports Jacket",
+                    designer: "MG",
+                    price: 179.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
+                    ],
+                    sizes: ["L", "XL"],
+                    description: "Lightweight sports jacket suitable for all athletic activities.",
+                    inStock: false
+                },
+                {
+                    id: "women1",
+                    categories: ["women"],
+                    name: "حريمي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/pTz8N5Bs/a00c8e59-9a45-46d4-81a1-189552cf9a47.jpg",
+                        "https://i.postimg.cc/wvm56G9c/9191964e-2e27-42c4-944b-2fca18c1dc11.jpg",
+                        "https://i.postimg.cc/bwwQGJzv/12512431-26e3-4ad9-a92a-ca451e533439.jpg",
+                        "https://i.postimg.cc/5NMgtbYH/121f264b-2bdb-4ebd-95a0-30ee615d6886.jpg",
+                    ],
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن .",
+                    inStock: true
+                },
+                {
+                    id: "women2",
+                    categories: ["women","men"],
+                    name: "حريمي و رجالي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/3wgsgCpF/cffe1b94-0e90-47a8-84ad-8baec85485e5.jpg",
+                        "https://i.postimg.cc/rw5nbym8/9ae77860-84ae-4cc7-9e71-b12fb9409197.jpg",
+      "https://i.postimg.cc/mDp8MtdS/e7f1f17a-dc89-4a34-8364-4973f403cc29.jpg",
+                        
+                    ],
+                    sizes: ["M", "L", "xl","xxl"],
+                    description: "حريمي و رجالي قطن ",
+                    inStock: true
+                },
+                {
+                    id: "women3",
+                    categories: ["women"],
+                    name: "حريمي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qMv6S1vg/c82e16a9-b9be-48fc-8e1e-052fde74d37b.jpg",
+                        "https://i.postimg.cc/y8SxCt46/f9a6593d-9476-495b-acbf-2cb18bec0a5a.jpg",
+                               "https://i.postimg.cc/bJPsTT5y/e948b100-4340-4ac4-90af-d75480a0c54f.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن ",
+                    inStock: true
+                },
+                  {
+                    id: "women4",
+                    categories: ["women"],
+                    name: "Night shirt",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/htFzvc0Q/8a123784-d064-4023-8edc-1e0f6a8287bb.jpg",
+                        "https://i.postimg.cc/mrBP3jJb/c46b5507-89bb-41fa-baf2-142a221ba40a.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن ",
+                    inStock: true
+                },
+              {
+                    id: "women5",
+                    categories: ["women"],
+                    name: "حريمي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/T3yz7X80/01f01e2a-14ce-44c6-a75c-6acbface7f13.jpg",
+                        "https://i.postimg.cc/C14XBhDh/4cf873d5-0d50-4cbd-863e-b3c1bb878a96.jpg",
+                               "https://i.postimg.cc/65PSG17v/6d188ac7-fb9c-4dfa-9ba1-100a50a368c5.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن ",
+                    inStock: true
+                },
+                  {
+                    id: "women6",
+                    categories: ["women"],
+                    name: "حريمي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/NMgQHdNR/6f86c862-022a-44f8-ae84-6f966d3ad6a4.jpg",
+                        "https://i.postimg.cc/J00mTGCn/8f750975-cada-4f39-8ee3-f3bd165604ba.jpg",
+                               "https://i.postimg.cc/sxLzbs3J/58a7eacf-feaa-4d98-bf6b-bfb5e519f191.jpg",
+   "https://i.postimg.cc/9F4CZRBg/365c7ad0-bc6a-42f6-bc24-e48ce0698e2c.jpg",
+   "https://i.postimg.cc/g28ptCQv/170703f7-1b11-458f-8d1b-275c444d4a0a.jpg",
+   "https://i.postimg.cc/jjTbp8YB/f29ed1b8-4902-4cd2-be7b-386312fc2b9d.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن ",
+                    inStock: true
+                },
+                 {
+                    id: "women7",
+                    categories: ["women"],
+                    name: "حريمي قطن ",
+                    designer: "MG",
+                    price: 380,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/cCRjBWrH/349faeab-a2f4-43e5-9019-0e2df8bf758b.jpg",
+                        "https://i.postimg.cc/zGXMK95z/8dad651b-2ea5-4715-85e6-6ca2d7b60bf3.jpg",
+                               "https://i.postimg.cc/zfycPKV4/da7365f4-397e-4aa0-a088-37cd898ad48f.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن ",
+                    inStock: true
+                },
+                  {
+                    id: "women8",
+                    categories: ["women"],
+                    name: "شورت حريمي قطن ",
+                    designer: "MG",
+                    price: 360,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/XYpLV34C/4275d0e3-6c52-47f0-bd59-e5b9d2761307.jpg",
+                        "https://i.postimg.cc/ht6rvwt3/43647e0d-f0a8-42fc-b511-a46650222062.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "شورت حريمي قطن ",
+                    inStock: true
+                },
+                   {
+                    id: "women9",
+                    categories: ["women"],
+                    name: "شورت حريمي قطن ",
+                    designer: "MG",
+                    price: 360,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/L8pPWphS/7752424c-709d-46c3-addb-4c5dfb295eea.jpg",
+                        "https://i.postimg.cc/NM52XGC6/ef7c890e-9f5a-4224-a593-760fb7af54a3.jpg",
+                    ],
+                  sizes: ["XL", "M", "L", "XXL"],
+                    description: "شورت حريمي قطن ",
+                    inStock: true
+                },
+                {
+                    id: "children2",
+                    categories: ["children"],
+                    name: "Kids Pants",
+                    designer: "MG",
+                    price: 99.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg"
+                    ],
+                    sizes: ["4 Years", "6 Years"],
+                    description: "Comfortable kids pants perfect for daily activities.",
+                    inStock: true
+                },
+                {
+                    id: "children3",
+                    categories: ["children"],
+                    name: "Kids Jacket",
+                    designer: "MG",
+                    price: 129.99,
+                    currency: "EGP",
+                    images: [
+                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
+                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
+                    ],
+                    sizes: ["4 Years", "6 Years", "8 Years"],
+                    description: "Warm kids jacket perfect for winter season.",
+                    inStock: false
+                }
+            ],
+            
+            getProductById: function(id) {
+                return this.products.find(product => product.id === id);
+            },
+            
+            getProductsByCategory: function(category) {
+                return this.products.filter(product => product.categories.includes(category));
+            },
+            
+            formatPrice: function(price) {
+                return price.toFixed(2) + " " + this.products[0].currency;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all products
+            productDatabase.categories.forEach(category => {
+                const products = productDatabase.getProductsByCategory(category);
+                renderProducts(category, products);
+                renderFullViewProducts(category);
+            });
+
+            // Hero slideshow
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+            
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+            
+            setInterval(nextSlide, 5000);
+            
+            // Menu functionality
+            const menuButton = document.getElementById('menuButton');
+            const closeMenu = document.getElementById('closeMenu');
+            const sideMenu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('overlay');
+            
+            menuButton.addEventListener('click', function() {
+                sideMenu.classList.add('active');
+                overlay.classList.add('active');
+            });
+            
+            closeMenu.addEventListener('click', function() {
+                sideMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            overlay.addEventListener('click', function() {
+                sideMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Shopping cart
+            const cart = [];
+            const cartCount = document.getElementById('cartCount');
+            const cartIcon = document.getElementById('cartIcon');
+            const checkoutModal = document.getElementById('checkoutModal');
+            const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+            const whatsappCheckout = document.getElementById('whatsappCheckout');
+            const continueShopping = document.getElementById('continueShopping');
+            const orderSummary = document.getElementById('orderSummary');
+            const orderTotal = document.getElementById('orderTotal');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const allProducts = document.querySelectorAll('.product-item');
+            
+            searchInput.addEventListener('keyup', function(e) {
+                const searchTerm = this.value.toLowerCase();
+                
+                allProducts.forEach(product => {
+                    const productName = product.querySelector('.product-name').textContent.toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        product.style.display = 'flex';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+            
+            function renderProducts(category, products) {
+                const container = document.querySelector(`.${category}-products-scroll`);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                products.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.className = 'product-item';
+                    productItem.setAttribute('data-product-id', product.id);
+                    
+                    productItem.innerHTML = `
+                        ${!product.inStock ? '<div class="sold-out-badge">Sold Out</div>' : ''}
+                        <div class="product-image">
+                            ${product.images.map((img, i) => 
+                                `<img src="${img}" alt="${product.name}" ${i === 0 ? 'class="active"' : ''}>`
+                            ).join('')}
+                        </div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-designer">${product.designer}</div>
+                        <div class="product-price">${productDatabase.formatPrice(product.price)}</div>
+                        <div class="product-sizes">
+                            ${product.sizes.map(size => 
+                                `<span class="size-option ${size === product.sizes[0] ? 'selected' : ''}">${size}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
+                            ${product.inStock ? 'Add to Cart' : 'Sold Out'}
+                        </button>
+                    `;
+                    
+                    container.appendChild(productItem);
+                });
+                
+                // Initialize image slideshows for these products
+                initProductImageSlideshowsForContainer(container);
+            }
+            
+            function renderFullViewProducts(category) {
+                const container = document.getElementById(`${category}FullViewGrid`);
+                if (!container) return;
+                
+                const products = productDatabase.getProductsByCategory(category);
+                
+                container.innerHTML = '';
+                
+                products.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.className = 'product-item';
+                    productItem.setAttribute('data-product-id', product.id);
+                    
+                    productItem.innerHTML = `
+                        ${!product.inStock ? '<div class="sold-out-badge">Sold Out</div>' : ''}
+                        <div class="product-image">
+                            ${product.images.map((img, i) => 
+                                `<img src="${img}" alt="${product.name}" ${i === 0 ? 'class="active"' : ''}>`
+                            ).join('')}
+                        </div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-designer">${product.designer}</div>
+                        <div class="product-price">${productDatabase.formatPrice(product.price)}</div>
+                        <div class="product-sizes">
+                            ${product.sizes.map(size => 
+                                `<span class="size-option ${size === product.sizes[0] ? 'selected' : ''}">${size}</span>`
+                            ).join('')}
+                        </div>
+                        <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
+                            ${product.inStock ? 'Add to Cart' : 'Sold Out'}
+                        </button>
+                    `;
+                    
+                    container.appendChild(productItem);
+                });
+                
+                // Initialize image slideshows for these products
+                initProductImageSlideshowsForContainer(container);
+            }
+            
+            function initProductImageSlideshowsForContainer(container) {
+                container.querySelectorAll('.product-image').forEach(imageContainer => {
+                    const images = imageContainer.querySelectorAll('img');
+                    if (images.length <= 1) return;
+                    
+                    let currentImage = 0;
+                    
+                    function showNextImage() {
+                        images[currentImage].classList.remove('active');
+                        currentImage = (currentImage + 1) % images.length;
+                        images[currentImage].classList.add('active');
+                    }
+                    
+                    setInterval(showNextImage, 5000);
+                });
+            }
+            
+            // Category view setup
+            function setupCategoryView(category) {
+                const viewAllBtn = document.querySelector(`.view-all-${category}`);
+                const backBtn = document.querySelector(`.back-to-${category}`);
+                const categorySection = document.getElementById(`${category}Category`);
+                const fullViewSection = document.getElementById(`${category}FullView`);
+                
+                if (!viewAllBtn || !backBtn || !categorySection || !fullViewSection) return;
+                
+                viewAllBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    categorySection.style.display = 'none';
+                    fullViewSection.classList.add('active');
+                    fullViewSection.scrollIntoView({ behavior: 'smooth' });
+                });
+                
+                backBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fullViewSection.classList.remove('active');
+                    categorySection.style.display = 'block';
+                    categorySection.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            productDatabase.categories.forEach(setupCategoryView);
+            
+            // Category photo links
+            document.getElementById('menCategoryLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('menCategory').style.display = 'none';
+                document.getElementById('menFullView').classList.add('active');
+                document.getElementById('menFullView').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('womenCategoryLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('womenCategory').style.display = 'none';
+                document.getElementById('womenFullView').classList.add('active');
+                document.getElementById('womenFullView').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('childrenCategoryLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('childrenCategory').style.display = 'none';
+                document.getElementById('childrenFullView').classList.add('active');
+                document.getElementById('childrenFullView').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Product details modal
+            document.addEventListener('click', function(e) {
+                const productItem = e.target.closest('.product-item');
+                if (!productItem) return;
+                
+                if (e.target.classList.contains('add-to-cart')) return;
+                if (e.target.classList.contains('sold-out-badge')) return;
+                if (e.target.classList.contains('size-option')) return;
+                
+                const productId = productItem.getAttribute('data-product-id');
+                if (productId) openProductDetails(productId);
+            });
+            
+            function openProductDetails(productId) {
+                const product = productDatabase.getProductById(productId);
+                if (!product) return;
+                
+                document.getElementById('productDetailsName').textContent = product.name;
+                document.getElementById('productDetailsDesigner').textContent = product.designer;
+                document.getElementById('productDetailsPrice').textContent = productDatabase.formatPrice(product.price);
+                document.getElementById('productDetailsDescription').textContent = product.description;
+                
+                document.getElementById('productMainImage').src = product.images[0];
+                
+                const thumbnailsContainer = document.getElementById('productThumbnails');
+                thumbnailsContainer.innerHTML = '';
+                product.images.forEach((image, index) => {
+                    const thumbnail = document.createElement('img');
+                    thumbnail.src = image;
+                    thumbnail.classList.add('product-thumbnail');
+                    if (index === 0) thumbnail.classList.add('active');
+                    thumbnail.addEventListener('click', function() {
+                        document.getElementById('productMainImage').src = image;
+                        document.querySelectorAll('.product-thumbnail').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                    thumbnailsContainer.appendChild(thumbnail);
+                });
+                
+                const sizesContainer = document.getElementById('productDetailsSizes');
+                sizesContainer.innerHTML = '';
+                product.sizes.forEach(size => {
+                    const sizeOption = document.createElement('span');
+                    sizeOption.textContent = size;
+                    sizeOption.classList.add('product-details-size');
+                    if (size === product.sizes[0]) sizeOption.classList.add('selected');
+                    sizeOption.addEventListener('click', function() {
+                        document.querySelectorAll('.product-details-size').forEach(s => s.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                    sizesContainer.appendChild(sizeOption);
+                });
+                
+                document.querySelector('.product-details-content').setAttribute('data-product-id', productId);
+                
+                const addToCartBtn = document.getElementById('addToCartFromDetails');
+                if (product.inStock) {
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.textContent = 'Add to Cart';
+                } else {
+                    addToCartBtn.disabled = true;
+                    addToCartBtn.textContent = 'Sold Out';
+                }
+                
+                document.getElementById('productDetailsModal').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            }
+            
+            document.getElementById('closeProductDetails').addEventListener('click', function() {
+                document.getElementById('productDetailsModal').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            });
+            
+            document.getElementById('backToHome').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('productDetailsModal').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Size selection
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('size-option')) {
+                    const parent = e.target.parentElement;
+                    parent.querySelectorAll('.size-option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    e.target.classList.add('selected');
+                }
+            });
+            
+            // Add to cart functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-to-cart')) {
+                    if (e.target.disabled) return;
+                    
+                    const productItem = e.target.closest('.product-item');
+                    const productId = productItem.getAttribute('data-product-id');
+                    const product = productDatabase.getProductById(productId);
+                    
+                    if (!product) return;
+                    
+                    const selectedSize = productItem.querySelector('.size-option.selected').textContent;
+                    
+                    addToCart(productId, product, selectedSize);
+                    
+                    const originalText = e.target.textContent;
+                    e.target.textContent = 'Added!';
+                    e.target.style.backgroundColor = '#D4AF37';
+                    e.target.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        e.target.textContent = originalText;
+                        e.target.style.backgroundColor = '';
+                        e.target.style.color = '';
+                    }, 1000);
+                }
+            });
+            
+            document.getElementById('addToCartFromDetails').addEventListener('click', function() {
+                if (this.disabled) return;
+                
+                const productId = document.querySelector('.product-details-content').getAttribute('data-product-id');
+                const product = productDatabase.getProductById(productId);
+                
+                if (!product) return;
+                
+                const selectedSize = document.querySelector('.product-details-size.selected').textContent;
+                
+                addToCart(productId, product, selectedSize);
+                
+                const originalText = this.textContent;
+                this.textContent = 'Added!';
+                this.style.backgroundColor = '#D4AF37';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                }, 1000);
+                
+                setTimeout(() => {
+                    document.getElementById('productDetailsModal').classList.remove('active');
+                    document.getElementById('overlay').classList.remove('active');
+                }, 1000);
+            });
+            
+            function addToCart(productId, product, size) {
+                const existingItem = cart.find(item => 
+                    item.id === productId && 
+                    item.size === size
+                );
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: productId,
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1,
+                        size: size,
+                        image: product.images[0]
+                    });
+                }
+                
+                updateCartCount();
+            }
+            
+            function updateCartCount() {
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('cartCount').textContent = count;
+            }
+            
+            // Cart functionality
+            cartIcon.addEventListener('click', function() {
+                updateOrderSummary();
+                document.getElementById('checkoutModal').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            });
+            
+            closeCheckoutModal.addEventListener('click', function() {
+                document.getElementById('checkoutModal').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            });
+            
+            continueShopping.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('checkoutModal').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            });
+            
+            whatsappCheckout.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (cart.length === 0) {
+                    alert('Your cart is empty');
+                    return;
+                }
+                
+                let message = "Hello MG Egyptian Fashion,\n\nI would like to place an order:\n\n";
+                
+                cart.forEach(item => {
+                    message += `- ${item.name}`;
+                    if (item.size) message += ` (Size: ${item.size})`;
+                    message += ` - ${item.price.toFixed(2)} EGP × ${item.quantity}\n`;
+                });
+                
+                message += `\nTotal: ${calculateTotal()} EGP\n\nPlease confirm my order. Order #: ${generateOrderNumber()}`;
+                
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/201123271234?text=${encodedMessage}`, '_blank');
+                
+                cart.length = 0;
+                updateCartCount();
+                document.getElementById('checkoutModal').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            });
+            
+            function generateOrderNumber() {
+                return Math.floor(100000 + Math.random() * 900000);
+            }
+            
+            function calculateTotal() {
+                return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+            }
+            
+            function updateOrderSummary() {
+                const orderSummaryContainer = document.getElementById('orderSummary');
+                orderSummaryContainer.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    document.getElementById('emptyCartMessage').style.display = 'block';
+                    document.getElementById('orderTotal').style.display = 'none';
+                    document.getElementById('whatsappCheckout').style.display = 'none';
+                } else {
+                    document.getElementById('emptyCartMessage').style.display = 'none';
+                    document.getElementById('orderTotal').style.display = 'block';
+                    document.getElementById('whatsappCheckout').style.display = 'block';
+                    
+                    cart.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('order-item');
+                        
+                        const itemInfo = document.createElement('div');
+                        itemInfo.classList.add('order-item-info');
+                        
+                        const itemImage = document.createElement('img');
+                        itemImage.src = item.image;
+                        itemImage.classList.add('order-item-image');
+                        itemImage.alt = item.name;
+                        
+                        const itemName = document.createElement('span');
+                        itemName.classList.add('order-item-name');
+                        itemName.textContent = `${item.name}`;
+                        if (item.size) {
+                            const sizeSpan = document.createElement('span');
+                            sizeSpan.classList.add('order-item-size');
+                            sizeSpan.textContent = ` (${item.size})`;
+                            itemName.appendChild(sizeSpan);
+                        }
+                        itemName.innerHTML += ` × ${item.quantity}`;
+                        
+                        const itemPrice = document.createElement('span');
+                        itemPrice.textContent = `${(item.price * item.quantity).toFixed(2)} EGP`;
+                        
+                        itemInfo.appendChild(itemImage);
+                        itemInfo.appendChild(itemName);
+                        
+                        itemElement.appendChild(itemInfo);
+                        itemElement.appendChild(itemPrice);
+                        orderSummaryContainer.appendChild(itemElement);
+                    });
+                    
+                    document.getElementById('orderTotal').textContent = `Total: ${calculateTotal()} EGP`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
