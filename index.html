@@ -232,7 +232,9 @@
         
         .hero-slideshow {
             width: 100%;
-            height: 40vh;
+            height: 50vh;
+            min-height: 300px;
+            max-height: 600px;
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
@@ -427,6 +429,36 @@
             font-weight: 600;
         }
         
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: var(--primary);
+            border: 1px solid var(--dark);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-input {
+            width: 30px;
+            height: 25px;
+            text-align: center;
+            border: 1px solid var(--dark);
+            border-left: none;
+            border-right: none;
+            font-size: 12px;
+        }
+        
         .add-to-cart {
             width: 100%;
             padding: 8px;
@@ -437,7 +469,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: auto;
+            margin-top: 8px;
             font-size: 12px;
             border: 1px solid var(--dark);
         }
@@ -629,6 +661,36 @@
             font-weight: 600;
         }
         
+        .product-details-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .product-details-quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border: 1px solid var(--dark);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-details-quantity-input {
+            width: 40px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid var(--dark);
+            border-left: none;
+            border-right: none;
+            font-size: 14px;
+        }
+        
         .product-details-add-to-cart {
             padding: 12px;
             background-color: var(--primary);
@@ -749,6 +811,35 @@
             color: #666;
         }
         
+        .order-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 10px;
+        }
+        
+        .order-item-quantity-btn {
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border: 1px solid var(--dark);
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .order-item-quantity-input {
+            width: 25px;
+            height: 20px;
+            text-align: center;
+            border: 1px solid var(--dark);
+            border-left: none;
+            border-right: none;
+            font-size: 12px;
+        }
+        
         .order-total {
             font-size: 16px;
             font-weight: bold;
@@ -797,7 +888,7 @@
             }
             
             .hero-slideshow {
-                height: 50vh;
+                height: 60vh;
             }
             
             .category-products-grid {
@@ -1029,6 +1120,11 @@
                 <p class="product-details-price" id="productDetailsPrice"></p>
                 <div class="product-details-sizes" id="productDetailsSizes"></div>
                 <p class="product-details-description" id="productDetailsDescription"></p>
+                <div class="product-details-quantity">
+                    <button class="product-details-quantity-btn" id="decreaseQuantity">-</button>
+                    <input type="text" class="product-details-quantity-input" id="productQuantity" value="1" readonly>
+                    <button class="product-details-quantity-btn" id="increaseQuantity">+</button>
+                </div>
                 <button class="product-details-add-to-cart" id="addToCartFromDetails">Add to Cart</button>
                 <a href="#" class="back-to-home" id="backToHome">Back to Home</a>
             </div>
@@ -1060,97 +1156,9 @@
         const productDatabase = {
             categories: ['best', 'men', 'women', 'children'],
             products: [
-                {
-                    id: "best1",
-                    categories: ["best", "men"],
-                    name: "Men's T-Shirt", 
-                    designer: "MG", 
-                    price: 199.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg"
-                    ],
-                    sizes: ["S", "M", "L", "XL"],
-                    description: "High-quality men's t-shirt made from 100% cotton, suitable for all occasions.",
-                    inStock: true
-                },
-              
-                {
-                    id: "best3",
-                    categories: ["best", "men"],
-                    name: "Leather Jacket",
-                    designer: "MG",
-                    price: 249.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
-                    ],
-                    sizes: ["M", "L"],
-                    description: "Classic leather jacket with a timeless design that suits all occasions.",
-                    inStock: false
-                },
-                {
-                    id: "best4",
-                    categories: ["best", "men"],
-                    name: "Men's Jeans",
-                    designer: "MG",
-                    price: 99.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/2yyBF23b/c6b54a72-05aa-469e-98ef-49af2c8ae733.jpg"
-                    ],
-                    sizes: ["28", "30", "32"],
-                    description: "Classic jeans with high quality and long-lasting durability.",
-                    inStock: true
-                },
-                {
-                    id: "men1",
-                    categories: ["men"],
-                    name: "Formal Shirt",
-                    designer: "MG",
-                    price: 349.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg"
-                    ],
-                    sizes: ["S", "M", "L", "XL"],
-                    description: "High-quality formal shirt suitable for business and formal occasions.",
-                    inStock: true
-                },
-                {
-                    id: "men2",
-                    categories: ["men"],
-                    name: "Summer Shorts",
-                    designer: "MG",
-                    price: 299.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg"
-                    ],
-                    sizes: ["M", "L"],
-                    description: "Comfortable summer shorts perfect for trips and summer activities.",
-                    inStock: true
-                },
-                {
-                    id: "men3",
-                    categories: ["men"],
-                    name: "Sports Jacket",
-                    designer: "MG",
-                    price: 179.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
-                    ],
-                    sizes: ["L", "XL"],
-                    description: "Lightweight sports jacket suitable for all athletic activities.",
-                    inStock: false
-                },
+               
+                
+                  
                  {
                     id: "men4",
                     categories: ["men"],
@@ -1505,37 +1513,7 @@
                    
                     inStock: true
                 },
-                {
-                    id: "children2",
-                    categories: ["children"],
-                    name: "Kids Pants",
-                    designer: "MG",
-                    price: 99.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/76YQn5dW/be114a54-791a-4a26-af9c-14d60a0e10c2.jpg",
-                        "https://i.postimg.cc/cJDPj7RS/da4d035b-2be8-419b-bfda-07838d4504ef.jpg",
-                         "https://i.postimg.cc/Y2LTnWj5/ebc23d51-045c-4244-a2d3-3f273dd6c1a7.jpg",
-                    ],
-                    sizes: ["4 Years", "6 Years"],
-                    description: "Comfortable kids pants perfect for daily activities.",
-                    inStock: true
-                },
-                {
-                    id: "children3",
-                    categories: ["children"],
-                    name: "Kids Jacket",
-                    designer: "MG",
-                    price: 129.99,
-                    currency: "EGP",
-                    images: [
-                        "https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png",
-                        "https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg"
-                    ],
-                    sizes: ["4 Years", "6 Years", "8 Years"],
-                    description: "Warm kids jacket perfect for winter season.",
-                    inStock: false
-                }
+               
             ],
             
             getProductById: function(id) {
@@ -1651,12 +1629,34 @@
                                 `<span class="size-option ${size === product.sizes[0] ? 'selected' : ''}">${size}</span>`
                             ).join('')}
                         </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus-btn">-</button>
+                            <input type="text" class="quantity-input" value="1" readonly>
+                            <button class="quantity-btn plus-btn">+</button>
+                        </div>
                         <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
                             ${product.inStock ? 'Add to Cart' : 'Sold Out'}
                         </button>
                     `;
                     
                     container.appendChild(productItem);
+                    
+                    // Add quantity controls functionality
+                    const minusBtn = productItem.querySelector('.minus-btn');
+                    const plusBtn = productItem.querySelector('.plus-btn');
+                    const quantityInput = productItem.querySelector('.quantity-input');
+                    
+                    minusBtn.addEventListener('click', function() {
+                        let value = parseInt(quantityInput.value);
+                        if (value > 1) {
+                            quantityInput.value = value - 1;
+                        }
+                    });
+                    
+                    plusBtn.addEventListener('click', function() {
+                        let value = parseInt(quantityInput.value);
+                        quantityInput.value = value + 1;
+                    });
                 });
                 
                 // Initialize image slideshows for these products
@@ -1691,12 +1691,34 @@
                                 `<span class="size-option ${size === product.sizes[0] ? 'selected' : ''}">${size}</span>`
                             ).join('')}
                         </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus-btn">-</button>
+                            <input type="text" class="quantity-input" value="1" readonly>
+                            <button class="quantity-btn plus-btn">+</button>
+                        </div>
                         <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
                             ${product.inStock ? 'Add to Cart' : 'Sold Out'}
                         </button>
                     `;
                     
                     container.appendChild(productItem);
+                    
+                    // Add quantity controls functionality
+                    const minusBtn = productItem.querySelector('.minus-btn');
+                    const plusBtn = productItem.querySelector('.plus-btn');
+                    const quantityInput = productItem.querySelector('.quantity-input');
+                    
+                    minusBtn.addEventListener('click', function() {
+                        let value = parseInt(quantityInput.value);
+                        if (value > 1) {
+                            quantityInput.value = value - 1;
+                        }
+                    });
+                    
+                    plusBtn.addEventListener('click', function() {
+                        let value = parseInt(quantityInput.value);
+                        quantityInput.value = value + 1;
+                    });
                 });
                 
                 // Initialize image slideshows for these products
@@ -1773,7 +1795,9 @@
                 const productItem = e.target.closest('.product-item');
                 if (!productItem) return;
                 
-                if (e.target.classList.contains('add-to-cart')) return;
+                if (e.target.classList.contains('add-to-cart') || 
+                    e.target.classList.contains('quantity-btn') || 
+                    e.target.classList.contains('quantity-input')) return;
                 if (e.target.classList.contains('sold-out-badge')) return;
                 if (e.target.classList.contains('size-option')) return;
                 
@@ -1788,7 +1812,7 @@
                 document.getElementById('productDetailsName').textContent = product.name;
                 document.getElementById('productDetailsDesigner').textContent = product.designer;
                 document.getElementById('productDetailsPrice').textContent = productDatabase.formatPrice(product.price);
-                document.getElementById('productDetailsDescription').textContent = product.description;
+                document.getElementById('productDetailsDescription').textContent = product.description || 'No description available';
                 
                 document.getElementById('productMainImage').src = product.images[0];
                 
@@ -1822,6 +1846,22 @@
                 });
                 
                 document.querySelector('.product-details-content').setAttribute('data-product-id', productId);
+                document.getElementById('productQuantity').value = '1';
+                
+                // Quantity controls in details modal
+                document.getElementById('decreaseQuantity').addEventListener('click', function() {
+                    const quantityInput = document.getElementById('productQuantity');
+                    let value = parseInt(quantityInput.value);
+                    if (value > 1) {
+                        quantityInput.value = value - 1;
+                    }
+                });
+                
+                document.getElementById('increaseQuantity').addEventListener('click', function() {
+                    const quantityInput = document.getElementById('productQuantity');
+                    let value = parseInt(quantityInput.value);
+                    quantityInput.value = value + 1;
+                });
                 
                 const addToCartBtn = document.getElementById('addToCartFromDetails');
                 if (product.inStock) {
@@ -1871,8 +1911,16 @@
                     if (!product) return;
                     
                     const selectedSize = productItem.querySelector('.size-option.selected').textContent;
+                    const quantity = parseInt(productItem.querySelector('.quantity-input').value);
+                    const currentImage = productItem.querySelector('.product-image img.active').src;
                     
-                    addToCart(productId, product, selectedSize);
+                    // If added from main page without selecting size, open product details
+                    if (!selectedSize) {
+                        openProductDetails(productId);
+                        return;
+                    }
+                    
+                    addToCart(productId, product, selectedSize, quantity, currentImage);
                     
                     const originalText = e.target.textContent;
                     e.target.textContent = 'Added!';
@@ -1896,8 +1944,10 @@
                 if (!product) return;
                 
                 const selectedSize = document.querySelector('.product-details-size.selected').textContent;
+                const quantity = parseInt(document.getElementById('productQuantity').value);
+                const currentImage = document.getElementById('productMainImage').src;
                 
-                addToCart(productId, product, selectedSize);
+                addToCart(productId, product, selectedSize, quantity, currentImage);
                 
                 const originalText = this.textContent;
                 this.textContent = 'Added!';
@@ -1916,22 +1966,22 @@
                 }, 1000);
             });
             
-            function addToCart(productId, product, size) {
+            function addToCart(productId, product, size, quantity = 1, image = null) {
                 const existingItem = cart.find(item => 
                     item.id === productId && 
                     item.size === size
                 );
                 
                 if (existingItem) {
-                    existingItem.quantity += 1;
+                    existingItem.quantity += quantity;
                 } else {
                     cart.push({
                         id: productId,
                         name: product.name,
                         price: product.price,
-                        quantity: 1,
+                        quantity: quantity,
                         size: size,
-                        image: product.images[0]
+                        image: image || product.images[0]
                     });
                 }
                 
@@ -1975,6 +2025,11 @@
                     message += `- ${item.name}`;
                     if (item.size) message += ` (Size: ${item.size})`;
                     message += ` - ${item.price.toFixed(2)} EGP × ${item.quantity}\n`;
+                    
+                    // Include the image URL in the message
+                    if (item.image) {
+                        message += `  Image: ${item.image}\n`;
+                    }
                 });
                 
                 message += `\nTotal: ${calculateTotal()} EGP\n\nPlease confirm my order. Order #: ${generateOrderNumber()}`;
@@ -2009,7 +2064,7 @@
                     document.getElementById('orderTotal').style.display = 'block';
                     document.getElementById('whatsappCheckout').style.display = 'block';
                     
-                    cart.forEach(item => {
+                    cart.forEach((item, index) => {
                         const itemElement = document.createElement('div');
                         itemElement.classList.add('order-item');
                         
@@ -2030,13 +2085,47 @@
                             sizeSpan.textContent = ` (${item.size})`;
                             itemName.appendChild(sizeSpan);
                         }
-                        itemName.innerHTML += ` × ${item.quantity}`;
                         
                         const itemPrice = document.createElement('span');
                         itemPrice.textContent = `${(item.price * item.quantity).toFixed(2)} EGP`;
                         
+                        const quantityControls = document.createElement('div');
+                        quantityControls.classList.add('order-item-quantity');
+                        
+                        const minusBtn = document.createElement('button');
+                        minusBtn.classList.add('order-item-quantity-btn');
+                        minusBtn.textContent = '-';
+                        minusBtn.addEventListener('click', function() {
+                            if (item.quantity > 1) {
+                                item.quantity--;
+                                updateOrderSummary();
+                            } else {
+                                cart.splice(index, 1);
+                                updateOrderSummary();
+                                updateCartCount();
+                            }
+                        });
+                        
+                        const quantityInput = document.createElement('input');
+                        quantityInput.classList.add('order-item-quantity-input');
+                        quantityInput.value = item.quantity;
+                        quantityInput.readOnly = true;
+                        
+                        const plusBtn = document.createElement('button');
+                        plusBtn.classList.add('order-item-quantity-btn');
+                        plusBtn.textContent = '+';
+                        plusBtn.addEventListener('click', function() {
+                            item.quantity++;
+                            updateOrderSummary();
+                        });
+                        
+                        quantityControls.appendChild(minusBtn);
+                        quantityControls.appendChild(quantityInput);
+                        quantityControls.appendChild(plusBtn);
+                        
                         itemInfo.appendChild(itemImage);
                         itemInfo.appendChild(itemName);
+                        itemInfo.appendChild(quantityControls);
                         
                         itemElement.appendChild(itemInfo);
                         itemElement.appendChild(itemPrice);
