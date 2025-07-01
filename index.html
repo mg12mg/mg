@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MG Egyptian Fashion</title>
+    <title>إم جي للموضة المصرية | MG Egyptian Fashion</title>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png">
     <style>
         :root {
@@ -263,6 +263,27 @@
             max-width: 100%;
             margin: 0 auto 30px;
             padding: 0 10px;
+        }
+        
+        .category-photos-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        .category-photo-item {
+            width: 150px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            height: 100%;
+            transition: transform 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
         }
         
         .category-header {
@@ -902,6 +923,10 @@
             .product-image {
                 height: 180px;
             }
+            
+            .category-photo-item {
+                width: 180px;
+            }
         }
         
         @media (min-width: 1024px) {
@@ -929,12 +954,12 @@
         <div class="header__left-icons">
             <div class="search-container">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search..." id="searchInput">
+                <input type="text" placeholder="بحث..." id="searchInput">
             </div>
         </div>
         
         <div class="header__logo">
-            <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="MG Egyptian Fashion">
+            <img src="https://i.postimg.cc/qqmTXMKG/Chat-GPT-Image-Jun-26-2025-12-06-23-PM.png" alt="إم جي للموضة المصرية">
         </div>
         
         <div class="header__right-icons">
@@ -958,25 +983,25 @@
     
     <div class="side-menu" id="sideMenu">
         <div class="side-menu-header">
-            <h3>Menu</h3>
+            <h3>القائمة</h3>
             <button class="close-menu" id="closeMenu">&times;</button>
         </div>
         <div class="menu-items">
             <a href="https://wa.me/201123271234" class="menu-item" target="_blank">
                 <i class="fab fa-whatsapp"></i>
-                <span>WhatsApp</span>
+                <span>واتساب</span>
             </a>
             <a href="https://www.facebook.com/profile.php?id=100050631903021" class="menu-item" target="_blank">
                 <i class="fab fa-facebook"></i>
-                <span>Facebook</span>
+                <span>فيسبوك</span>
             </a>
             <a href="https://www.instagram.com/mg_fashion6?igsh=NjJ3b2M0ZmdjbnZo&utm_source=qr" class="menu-item" target="_blank">
                 <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
+                <span>إنستجرام</span>
             </a>
             <a href="#" class="menu-item">
                 <i class="fas fa-info-circle"></i>
-                <span>About Us</span>
+                <span>من نحن</span>
             </a>
         </div>
     </div>
@@ -984,18 +1009,18 @@
     <div class="overlay" id="overlay"></div>
     
     <div class="yellow-tap">
-       شحن مجاني علي اوردرات اكتر من 2000 جنية
+       شحن مجاني على الطلبات أكثر من 2000 جنيه
     </div>
     
     <div class="hero-slideshow">
         <div class="hero-slide active">
-            <img src="https://i.postimg.cc/RC3qgr4W/9fe22c3e-d901-427d-8392-bffb232c1ba1.jpg" alt="MG Egyptian Fashion">
+            <img src="https://i.postimg.cc/RC3qgr4W/9fe22c3e-d901-427d-8392-bffb232c1ba1.jpg" alt="إم جي للموضة المصرية">
         </div>
         <div class="hero-slide">
-            <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="MG Egyptian Fashion">
+            <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="إم جي للموضة المصرية">
         </div>
         <div class="hero-slide">
-            <img src="https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg" alt="MG Egyptian Fashion">
+            <img src="https://i.postimg.cc/zXKv1nL5/d693309f-dafb-4fdb-8bbc-7a8b5d14e315.jpg" alt="إم جي للموضة المصرية">
         </div>
     </div>
     
@@ -1004,34 +1029,34 @@
             <div class="category-photos-container">
                 <div class="product-item category-photo-item" id="menCategoryLink">
                     <div class="product-image">
-                        <img src="https://i.postimg.cc/CMW5tvxm/c6f0bde0-97c5-499c-a27a-66af32c7ac00.jpg" alt="Men's Clothing">
+                        <img src="https://i.postimg.cc/V6qJgGsP/d9c0e871-9427-48d1-8619-946b2a314fb0.jpg" alt="ملابس رجالي" class="active">
                     </div>
-                    <div class="product-name">Men's Collection</div>
-                    <button class="add-to-cart">Shop Now</button>
+                    <div class="product-name">المجموعة الرجالية</div>
+                    <button class="add-to-cart">تسوق الآن</button>
                 </div>
                 
                 <div class="product-item category-photo-item" id="womenCategoryLink">
                     <div class="product-image">
-                        <img src="https://i.postimg.cc/d14yyzQc/3ace5c27-1e70-4a1b-b5fc-472c171f6582.jpg" alt="Women's Clothing">
+                        <img src="https://i.postimg.cc/vHkG17Mr/8aadda74-c3a8-4c5a-b41e-f416e8b08498.jpg" alt="ملابس حريمي" class="active">
                     </div>
-                    <div class="product-name">Women's Collection</div>
-                    <button class="add-to-cart">Shop Now</button>
+                    <div class="product-name">المجموعة الحريمي</div>
+                    <button class="add-to-cart">تسوق الآن</button>
                 </div>
                 
                 <div class="product-item category-photo-item" id="childrenCategoryLink">
                     <div class="product-image">
-                        <img src="https://i.postimg.cc/2yyBF23b/c6b54a72-05aa-469e-98ef-49af2c8ae733.jpg" alt="Children's Clothing">
+                        <img src="https://i.postimg.cc/zGh8TLX9/47a7995a-b899-4ded-95fd-027341ac2263.jpg" alt="ملابس أطفال" class="active">
                     </div>
-                    <div class="product-name">Kids Collection</div>
-                    <button class="add-to-cart">Shop Now</button>
+                    <div class="product-name">مجموعة الأطفال</div>
+                    <button class="add-to-cart">تسوق الآن</button>
                 </div>
             </div>
         </div>
         
         <section class="category-section" id="bestSellersCategory">
             <div class="category-header">
-                <a href="#" class="view-all-btn view-all-best">View All</a>
-                <h2 class="category-title">Best Sellers</h2>
+                <a href="#" class="view-all-btn view-all-best">عرض الكل</a>
+                <h2 class="category-title">الأكثر مبيعاً</h2>
             </div>
             
             <div class="products-wrapper">
@@ -1043,8 +1068,8 @@
         
         <section class="category-section" id="menCategory">
             <div class="category-header">
-                <a href="#" class="view-all-btn view-all-men">View All</a>
-                <h2 class="category-title">Men's Collection</h2>
+                <a href="#" class="view-all-btn view-all-men">عرض الكل</a>
+                <h2 class="category-title">المجموعة الرجالية</h2>
             </div>
             
             <div class="products-wrapper">
@@ -1056,8 +1081,8 @@
         
         <section class="category-section" id="womenCategory">
             <div class="category-header">
-                <a href="#" class="view-all-btn view-all-women">View All</a>
-                <h2 class="category-title">Women's Collection</h2>
+                <a href="#" class="view-all-btn view-all-women">عرض الكل</a>
+                <h2 class="category-title">المجموعة الحريمي</h2>
             </div>
             
             <div class="products-wrapper">
@@ -1069,8 +1094,8 @@
         
         <section class="category-section" id="childrenCategory">
             <div class="category-header">
-                <a href="#" class="view-all-btn view-all-children">View All</a>
-                <h2 class="category-title">Kids Collection</h2>
+                <a href="#" class="view-all-btn view-all-children">عرض الكل</a>
+                <h2 class="category-title">مجموعة الأطفال</h2>
             </div>
             
             <div class="products-wrapper">
@@ -1082,26 +1107,26 @@
     </div>
     
     <section class="category-full-view" id="bestFullView">
-        <a href="#" class="back-to-categories back-to-best">← Back to Categories</a>
-        <h2 class="category-title">Best Sellers</h2>
+        <a href="#" class="back-to-categories back-to-best">← العودة للفئات</a>
+        <h2 class="category-title">الأكثر مبيعاً</h2>
         <div class="category-products-grid" id="bestFullViewGrid"></div>
     </section>
     
     <section class="category-full-view" id="menFullView">
-        <a href="#" class="back-to-categories back-to-men">← Back to Categories</a>
-        <h2 class="category-title">Men's Collection</h2>
+        <a href="#" class="back-to-categories back-to-men">← العودة للفئات</a>
+        <h2 class="category-title">المجموعة الرجالية</h2>
         <div class="category-products-grid" id="menFullViewGrid"></div>
     </section>
     
     <section class="category-full-view" id="womenFullView">
-        <a href="#" class="back-to-categories back-to-women">← Back to Categories</a>
-        <h2 class="category-title">Women's Collection</h2>
+        <a href="#" class="back-to-categories back-to-women">← العودة للفئات</a>
+        <h2 class="category-title">المجموعة الحريمي</h2>
         <div class="category-products-grid" id="womenFullViewGrid"></div>
     </section>
     
     <section class="category-full-view" id="childrenFullView">
-        <a href="#" class="back-to-categories back-to-children">← Back to Categories</a>
-        <h2 class="category-title">Kids Collection</h2>
+        <a href="#" class="back-to-categories back-to-children">← العودة للفئات</a>
+        <h2 class="category-title">مجموعة الأطفال</h2>
         <div class="category-products-grid" id="childrenFullViewGrid"></div>
     </section>
     
@@ -1111,7 +1136,7 @@
         </div>
         <div class="product-details-content">
             <div class="product-details-images">
-                <img src="" alt="Product Image" class="product-main-image" id="productMainImage">
+                <img src="" alt="صورة المنتج" class="product-main-image" id="productMainImage">
                 <div class="product-thumbnails" id="productThumbnails"></div>
             </div>
             <div class="product-details-info">
@@ -1125,29 +1150,29 @@
                     <input type="text" class="product-details-quantity-input" id="productQuantity" value="1" readonly>
                     <button class="product-details-quantity-btn" id="increaseQuantity">+</button>
                 </div>
-                <button class="product-details-add-to-cart" id="addToCartFromDetails">Add to Cart</button>
-                <a href="#" class="back-to-home" id="backToHome">Back to Home</a>
+                <button class="product-details-add-to-cart" id="addToCartFromDetails">أضف إلى السلة</button>
+                <a href="#" class="back-to-home" id="backToHome">العودة للرئيسية</a>
             </div>
         </div>
     </div>
     
     <div class="checkout-modal" id="checkoutModal">
         <div class="checkout-header">
-            <h3>Your Order</h3>
+            <h3>طلباتك</h3>
             <button class="checkout-close" id="closeCheckoutModal">&times;</button>
         </div>
         <div class="checkout-content">
             <div class="order-summary" id="orderSummary"></div>
-            <div id="emptyCartMessage" class="empty-cart-message">Your cart is empty</div>
-            <div class="order-total" id="orderTotal">Total: 0 EGP</div>
-            <a href="#" class="product-details-add-to-cart" id="whatsappCheckout">Complete Order via WhatsApp</a>
-            <a href="#" class="back-to-home" id="continueShopping">Continue Shopping</a>
+            <div id="emptyCartMessage" class="empty-cart-message">سلة التسوق فارغة</div>
+            <div class="order-total" id="orderTotal">الإجمالي: 0 جنيه</div>
+            <a href="#" class="product-details-add-to-cart" id="whatsappCheckout">إتمام الطلب عبر واتساب</a>
+            <a href="#" class="back-to-home" id="continueShopping">مواصلة التسوق</a>
         </div>
     </div>
     
     <footer class="footer">
         <div class="footer__bottom">
-            &copy; 2025 MG Egyptian Fashion. All rights reserved.
+            &copy; 2025 إم جي للموضة المصرية. جميع الحقوق محفوظة.
         </div>
     </footer>
 
@@ -1156,32 +1181,28 @@
         const productDatabase = {
             categories: ['best', 'men', 'women', 'children'],
             products: [
-               
-                
-                  
-                 {
+                {
                     id: "men4",
                     categories: ["men"],
-                     name: " رجالي قطن",
+                    name: "رجالي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/0Qn8pVfT/2f2e812b-0694-4754-bac2-c3b4e78e8aed.jpg",
                         "https://i.postimg.cc/C56S2d9J/adae9caa-9f00-454f-8c66-b55401de3d02.jpg",
-                       "https://i.postimg.cc/q7d0SPZf/e5fd891e-fe7f-4ec8-a25d-553fbc53d14e.jpg",
+                        "https://i.postimg.cc/q7d0SPZf/e5fd891e-fe7f-4ec8-a25d-553fbc53d14e.jpg",
                         "https://i.postimg.cc/LsBRpxrJ/10c7c6a5-1786-4bdc-9fd6-5bdb6aecf0c6.jpg",
                         "https://i.postimg.cc/7hbySwbz/891a23bc-5549-4ec7-86c2-a7535beaf3e9.jpg",
                         "https://i.postimg.cc/g23bVMcg/dfaea177-0218-41b7-842b-5ccbb9935af0.jpg",
                     ],
-                  sizes: ["XL", "xxxl", "L", "XXL"],
-                   
+                    sizes: ["XL", "XXXL", "L", "XXL"],
                     inStock: true
                 },
                 {
                     id: "women1",
                     categories: ["women"],
-                    name: "حريمي قطن ",
+                    name: "حريمي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
@@ -1192,46 +1213,45 @@
                         "https://i.postimg.cc/5NMgtbYH/121f264b-2bdb-4ebd-95a0-30ee615d6886.jpg",
                     ],
                     sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن .",
+                    description: "حريمي قطن.",
                     inStock: true
                 },
                 {
                     id: "women2",
                     categories: ["women","men"],
-                    name: "حريمي و رجالي قطن ",
+                    name: "حريمي و رجالي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/3wgsgCpF/cffe1b94-0e90-47a8-84ad-8baec85485e5.jpg",
                         "https://i.postimg.cc/rw5nbym8/9ae77860-84ae-4cc7-9e71-b12fb9409197.jpg",
-      "https://i.postimg.cc/mDp8MtdS/e7f1f17a-dc89-4a34-8364-4973f403cc29.jpg",
-                        
+                        "https://i.postimg.cc/mDp8MtdS/e7f1f17a-dc89-4a34-8364-4973f403cc29.jpg",
                     ],
-                    sizes: ["M", "L", "xl","xxl"],
-                    description: "حريمي و رجالي قطن ",
+                    sizes: ["M", "L", "XL","XXL"],
+                    description: "حريمي و رجالي قطن",
                     inStock: true
                 },
                 {
                     id: "women3",
                     categories: ["women"],
-                    name: "حريمي قطن ",
+                    name: "حريمي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/qMv6S1vg/c82e16a9-b9be-48fc-8e1e-052fde74d37b.jpg",
                         "https://i.postimg.cc/y8SxCt46/f9a6593d-9476-495b-acbf-2cb18bec0a5a.jpg",
-                               "https://i.postimg.cc/bJPsTT5y/e948b100-4340-4ac4-90af-d75480a0c54f.jpg",
+                        "https://i.postimg.cc/bJPsTT5y/e948b100-4340-4ac4-90af-d75480a0c54f.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن",
                     inStock: true
                 },
-                  {
+                {
                     id: "women4",
                     categories: ["women"],
-                    name: "Night shirt",
+                    name: "قميص نوم",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
@@ -1239,65 +1259,65 @@
                         "https://i.postimg.cc/htFzvc0Q/8a123784-d064-4023-8edc-1e0f6a8287bb.jpg",
                         "https://i.postimg.cc/mrBP3jJb/c46b5507-89bb-41fa-baf2-142a221ba40a.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن",
                     inStock: true
                 },
-              {
+                {
                     id: "women5",
                     categories: ["women"],
-                    name: "حريمي قطن ",
+                    name: "حريمي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/T3yz7X80/01f01e2a-14ce-44c6-a75c-6acbface7f13.jpg",
                         "https://i.postimg.cc/C14XBhDh/4cf873d5-0d50-4cbd-863e-b3c1bb878a96.jpg",
-                               "https://i.postimg.cc/65PSG17v/6d188ac7-fb9c-4dfa-9ba1-100a50a368c5.jpg",
+                        "https://i.postimg.cc/65PSG17v/6d188ac7-fb9c-4dfa-9ba1-100a50a368c5.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن",
                     inStock: true
                 },
-                  {
+                {
                     id: "women6",
                     categories: ["women"],
-                    name: "حريمي قطن ",
+                    name: "حريمي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/NMgQHdNR/6f86c862-022a-44f8-ae84-6f966d3ad6a4.jpg",
                         "https://i.postimg.cc/J00mTGCn/8f750975-cada-4f39-8ee3-f3bd165604ba.jpg",
-                               "https://i.postimg.cc/sxLzbs3J/58a7eacf-feaa-4d98-bf6b-bfb5e519f191.jpg",
-   "https://i.postimg.cc/9F4CZRBg/365c7ad0-bc6a-42f6-bc24-e48ce0698e2c.jpg",
-   "https://i.postimg.cc/g28ptCQv/170703f7-1b11-458f-8d1b-275c444d4a0a.jpg",
-   "https://i.postimg.cc/jjTbp8YB/f29ed1b8-4902-4cd2-be7b-386312fc2b9d.jpg",
+                        "https://i.postimg.cc/sxLzbs3J/58a7eacf-feaa-4d98-bf6b-bfb5e519f191.jpg",
+                        "https://i.postimg.cc/9F4CZRBg/365c7ad0-bc6a-42f6-bc24-e48ce0698e2c.jpg",
+                        "https://i.postimg.cc/g28ptCQv/170703f7-1b11-458f-8d1b-275c444d4a0a.jpg",
+                        "https://i.postimg.cc/jjTbp8YB/f29ed1b8-4902-4cd2-be7b-386312fc2b9d.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن",
                     inStock: true
                 },
-                 {
+                {
                     id: "women7",
                     categories: ["women"],
-                    name: "حريمي قطن ",
+                    name: "حريمي قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/cCRjBWrH/349faeab-a2f4-43e5-9019-0e2df8bf758b.jpg",
                         "https://i.postimg.cc/zGXMK95z/8dad651b-2ea5-4715-85e6-6ca2d7b60bf3.jpg",
-                               "https://i.postimg.cc/zfycPKV4/da7365f4-397e-4aa0-a088-37cd898ad48f.jpg",
+                        "https://i.postimg.cc/zfycPKV4/da7365f4-397e-4aa0-a088-37cd898ad48f.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "حريمي قطن",
                     inStock: true
                 },
-                  {
+                {
                     id: "women8",
                     categories: ["women"],
-                    name: "شورت حريمي قطن ",
+                    name: "شورت حريمي قطن",
                     designer: "MG",
                     price: 360,
                     currency: "EGP",
@@ -1305,14 +1325,14 @@
                         "https://i.postimg.cc/XYpLV34C/4275d0e3-6c52-47f0-bd59-e5b9d2761307.jpg",
                         "https://i.postimg.cc/ht6rvwt3/43647e0d-f0a8-42fc-b511-a46650222062.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "شورت حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "شورت حريمي قطن",
                     inStock: true
                 },
-                   {
+                {
                     id: "women9",
                     categories: ["women"],
-                    name: "شورت حريمي قطن ",
+                    name: "شورت حريمي قطن",
                     designer: "MG",
                     price: 360,
                     currency: "EGP",
@@ -1320,11 +1340,11 @@
                         "https://i.postimg.cc/L8pPWphS/7752424c-709d-46c3-addb-4c5dfb295eea.jpg",
                         "https://i.postimg.cc/NM52XGC6/ef7c890e-9f5a-4224-a593-760fb7af54a3.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "شورت حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "شورت حريمي قطن",
                     inStock: true
                 },
-                  {
+                {
                     id: "women10",
                     categories: ["women"],
                     name: "قطن ليكرا",
@@ -1333,18 +1353,17 @@
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/76YQn5dW/be114a54-791a-4a26-af9c-14d60a0e10c2.jpg",
-                      "https://i.postimg.cc/cJDPj7RS/da4d035b-2be8-419b-bfda-07838d4504ef.jpg",
+                        "https://i.postimg.cc/cJDPj7RS/da4d035b-2be8-419b-bfda-07838d4504ef.jpg",
                         "https://i.postimg.cc/Y2LTnWj5/ebc23d51-045c-4244-a2d3-3f273dd6c1a7.jpg",
                     ],
-
-                  sizes: ["XL", "M", "L", "XXL"],
-                    description: "شورت حريمي قطن ",
+                    sizes: ["XL", "M", "L", "XXL"],
+                    description: "شورت حريمي قطن",
                     inStock: true
                 },
-                 {
+                {
                     id: "women11",
                     categories: ["women"],
-                     name: "قطن",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
@@ -1353,31 +1372,29 @@
                         "https://i.postimg.cc/QCpF0dRR/b7423df6-83c1-4d91-bf3c-8efddca1d34d.jpg",
                         "https://i.postimg.cc/L84J3Rvb/835fd75b-9ed9-4353-b4cd-7fb46d1d8f4c.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                  {
+                {
                     id: "women12",
                     categories: ["women"],
-                     name: "حريمي night shirt قطن",
+                    name: "حريمي قميص نوم قطن",
                     designer: "MG",
                     price: 290,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/XNGN3qDW/631a7295-15c1-4b90-8194-3bfe8af7e304.jpg",
                         "https://i.postimg.cc/P54TKwNW/28c3de3f-2b4a-418e-9f3d-b71eefeb9387.jpg",
-                       "https://i.postimg.cc/63DXTV1X/bdc8ad1e-1b35-4dcc-b0cc-0d0632009565.jpg",
+                        "https://i.postimg.cc/63DXTV1X/bdc8ad1e-1b35-4dcc-b0cc-0d0632009565.jpg",
                         "https://i.postimg.cc/RCHmy8NV/48791732-6a29-4db5-bde3-4b3c332fdb0b.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                 {
+                {
                     id: "women13",
                     categories: ["women"],
-                     name: "قطن",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
@@ -1386,134 +1403,124 @@
                         "https://i.postimg.cc/BZ17JfTk/21cd87ca-3252-403f-8a52-5ea3c121d4f3.jpg",
                         "https://i.postimg.cc/NMZGhv6B/6c796a00-63de-43ba-9d6f-ca7db2eacf26.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                  {
+                {
                     id: "women14",
                     categories: ["women"],
-                     name: "شورت قطن",
+                    name: "شورت قطن",
                     designer: "MG",
                     price: 360,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/5NRkX8wn/938ca492-2248-4144-9f32-943243f783be.jpg",
                         "https://i.postimg.cc/HsRBYdgN/9f3e9556-cd23-4fc1-b773-34d53c3c9e25.jpg",
-                       "https://i.postimg.cc/zBzktfCy/15f67151-d8ea-4eba-8b8a-c67661036863.jpg",
+                        "https://i.postimg.cc/zBzktfCy/15f67151-d8ea-4eba-8b8a-c67661036863.jpg",
                         "https://i.postimg.cc/wvjh5GzJ/519adb16-ef15-4fd6-a866-c113bed976b1.jpg",
                         "https://i.postimg.cc/rmZ5fNyH/914c97fa-312f-431d-ba81-9d7f9aa4204d.jpg",
-                         "https://i.postimg.cc/rybSWjP0/195842f0-f8c8-4247-a4c5-a5677caa0fee.jpg",
+                        "https://i.postimg.cc/rybSWjP0/195842f0-f8c8-4247-a4c5-a5677caa0fee.jpg",
                         "https://i.postimg.cc/qM32GKPm/d18c75f2-c582-4854-b72b-9cdde0f076b4.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                 {
+                {
                     id: "women15",
                     categories: ["women"],
-                     name: "شورت قطن",
+                    name: "شورت قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/htHmQtyk/6c89a231-39e9-4911-805d-77c275a4487b.jpg",
                         "https://i.postimg.cc/cC4tGgCn/8a2c2396-4024-46a5-9de0-8c614d82bbbc.jpg",
-                       "https://i.postimg.cc/R053Vbq9/35b39ba7-b5e3-426d-8304-3e01ec1318e6.jpg",
-     "https://i.postimg.cc/L5X50cQk/c79cbf4b-57ff-42c1-ada1-5e9572ab9b64.jpg",
+                        "https://i.postimg.cc/R053Vbq9/35b39ba7-b5e3-426d-8304-3e01ec1318e6.jpg",
+                        "https://i.postimg.cc/L5X50cQk/c79cbf4b-57ff-42c1-ada1-5e9572ab9b64.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXXL"],
                     inStock: true
                 },
- {
+                {
                     id: "women16",
                     categories: ["women"],
-                     name: "قطن ",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/rF3VTnwJ/ee8a2388-5441-477a-a504-e872459ce1f2.jpg",
                         "https://i.postimg.cc/25Fr4CFc/388ef7d9-a33f-48cb-83c5-9311037b9a5d.jpg",
-                       "https://i.postimg.cc/Nf9td6kr/3d336664-1cc9-49e9-8333-a0fdfbcbf0ba.jpg",
-   
+                        "https://i.postimg.cc/Nf9td6kr/3d336664-1cc9-49e9-8333-a0fdfbcbf0ba.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
                 {
                     id: "women17",
                     categories: ["women"],
-                     name: "قطن ",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/cCJnp9LW/ca7c570d-99ed-4532-ba4a-c702e40a3875.jpg",
                         "https://i.postimg.cc/3JVvqZ5M/b4d8df51-570e-4b8d-96ff-3c6693c4590f.jpg",
-                       "https://i.postimg.cc/Y9d4z6fs/36683a28-413d-4e3d-a05f-137f9e18c784.jpg",
-     "https://i.postimg.cc/65k8c5nt/3e136048-996a-4b92-bde7-18bd948c3f85.jpg",
+                        "https://i.postimg.cc/Y9d4z6fs/36683a28-413d-4e3d-a05f-137f9e18c784.jpg",
+                        "https://i.postimg.cc/65k8c5nt/3e136048-996a-4b92-bde7-18bd948c3f85.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                  {
+                {
                     id: "women18",
                     categories: ["women"],
-                     name: "قطن ",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/V6g79VhP/0ce2a99e-954f-41d8-9e7b-43f07f1ae429.jpg",
                         "https://i.postimg.cc/7PBsfj7g/476ddb23-c5a2-446e-bfc6-4516e98e0a6c.jpg",
-                       "https://i.postimg.cc/xdSgwQDS/8f33c890-889e-42fe-9a90-b645a3ffdbab.jpg",
+                        "https://i.postimg.cc/xdSgwQDS/8f33c890-889e-42fe-9a90-b645a3ffdbab.jpg",
                         "https://i.postimg.cc/wvq2Bkjf/5f501239-5f22-4c1f-8ba1-f4a34efe1de1.jpg",
-                       "https://i.postimg.cc/QtfbKWBX/ab28fa0e-19f5-4bb1-9c3f-d512a0229a3d.jpg",
+                        "https://i.postimg.cc/QtfbKWBX/ab28fa0e-19f5-4bb1-9c3f-d512a0229a3d.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXXL"],
                     inStock: true
                 },
-                    {
+                {
                     id: "women19",
                     categories: ["women"],
-                     name: "قطن ",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/pTmZ8LKz/3a03d85e-9eb8-4646-848a-47496a4ab56d.jpg",
                         "https://i.postimg.cc/MHRmP3PG/4fa5de7d-d562-4bd6-8b03-734d16387961.jpg",
-                       "https://i.postimg.cc/jqJcSCxr/13fcd861-73ed-4ba4-9926-91361c944f5f.jpg",
+                        "https://i.postimg.cc/jqJcSCxr/13fcd861-73ed-4ba4-9926-91361c944f5f.jpg",
                         "https://i.postimg.cc/J4NQjgH6/28849b51-f1ca-49c7-ba57-d7c1be2b2f9b.jpg",
-                       "https://i.postimg.cc/XvzKV6tJ/6892371b-5694-4e47-a420-f89e7d21a6de.jpg",
+                        "https://i.postimg.cc/XvzKV6tJ/6892371b-5694-4e47-a420-f89e7d21a6de.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
                 },
-                 {
-                    id: "women19",
+                {
+                    id: "women20",
                     categories: ["women"],
-                     name: "قطن ",
+                    name: "قطن",
                     designer: "MG",
                     price: 380,
                     currency: "EGP",
                     images: [
                         "https://i.postimg.cc/MHRmP3PG/4fa5de7d-d562-4bd6-8b03-734d16387961.jpg",
                         "https://i.postimg.cc/jqJcSCxr/13fcd861-73ed-4ba4-9926-91361c944f5f.jpg",
-                           "https://i.postimg.cc/XvzKV6tJ/6892371b-5694-4e47-a420-f89e7d21a6de.jpg",
+                        "https://i.postimg.cc/XvzKV6tJ/6892371b-5694-4e47-a420-f89e7d21a6de.jpg",
                     ],
-                  sizes: ["XL", "M", "L", "XXL"],
-                   
+                    sizes: ["XL", "M", "L", "XXL"],
                     inStock: true
-                },
-               
+                }
             ],
             
             getProductById: function(id) {
@@ -1615,7 +1622,7 @@
                     productItem.setAttribute('data-product-id', product.id);
                     
                     productItem.innerHTML = `
-                        ${!product.inStock ? '<div class="sold-out-badge">Sold Out</div>' : ''}
+                        ${!product.inStock ? '<div class="sold-out-badge">نفذ</div>' : ''}
                         <div class="product-image">
                             ${product.images.map((img, i) => 
                                 `<img src="${img}" alt="${product.name}" ${i === 0 ? 'class="active"' : ''}>`
@@ -1635,7 +1642,7 @@
                             <button class="quantity-btn plus-btn">+</button>
                         </div>
                         <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
-                            ${product.inStock ? 'Add to Cart' : 'Sold Out'}
+                            ${product.inStock ? 'أضف إلى السلة' : 'نفذ'}
                         </button>
                     `;
                     
@@ -1677,7 +1684,7 @@
                     productItem.setAttribute('data-product-id', product.id);
                     
                     productItem.innerHTML = `
-                        ${!product.inStock ? '<div class="sold-out-badge">Sold Out</div>' : ''}
+                        ${!product.inStock ? '<div class="sold-out-badge">نفذ</div>' : ''}
                         <div class="product-image">
                             ${product.images.map((img, i) => 
                                 `<img src="${img}" alt="${product.name}" ${i === 0 ? 'class="active"' : ''}>`
@@ -1697,7 +1704,7 @@
                             <button class="quantity-btn plus-btn">+</button>
                         </div>
                         <button class="add-to-cart" ${product.inStock ? '' : 'disabled'}>
-                            ${product.inStock ? 'Add to Cart' : 'Sold Out'}
+                            ${product.inStock ? 'أضف إلى السلة' : 'نفذ'}
                         </button>
                     `;
                     
@@ -1812,7 +1819,7 @@
                 document.getElementById('productDetailsName').textContent = product.name;
                 document.getElementById('productDetailsDesigner').textContent = product.designer;
                 document.getElementById('productDetailsPrice').textContent = productDatabase.formatPrice(product.price);
-                document.getElementById('productDetailsDescription').textContent = product.description || 'No description available';
+                document.getElementById('productDetailsDescription').textContent = product.description || 'لا يوجد وصف متاح';
                 
                 document.getElementById('productMainImage').src = product.images[0];
                 
@@ -1866,10 +1873,10 @@
                 const addToCartBtn = document.getElementById('addToCartFromDetails');
                 if (product.inStock) {
                     addToCartBtn.disabled = false;
-                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.textContent = 'أضف إلى السلة';
                 } else {
                     addToCartBtn.disabled = true;
-                    addToCartBtn.textContent = 'Sold Out';
+                    addToCartBtn.textContent = 'نفذ';
                 }
                 
                 document.getElementById('productDetailsModal').classList.add('active');
@@ -1910,28 +1917,16 @@
                     
                     if (!product) return;
                     
-                    const selectedSize = productItem.querySelector('.size-option.selected').textContent;
+                    const selectedSize = productItem.querySelector('.size-option.selected')?.textContent;
                     const quantity = parseInt(productItem.querySelector('.quantity-input').value);
-                    const currentImage = productItem.querySelector('.product-image img.active').src;
+                    const currentImage = productItem.querySelector('.product-image img.active')?.src;
                     
-                    // If added from main page without selecting size, open product details
-                    if (!selectedSize) {
-                        openProductDetails(productId);
-                        return;
-                    }
+                    // Open product details to select image
+                    openProductDetails(productId);
                     
-                    addToCart(productId, product, selectedSize, quantity, currentImage);
-                    
-                    const originalText = e.target.textContent;
-                    e.target.textContent = 'Added!';
-                    e.target.style.backgroundColor = '#D4AF37';
-                    e.target.style.color = 'white';
-                    
-                    setTimeout(() => {
-                        e.target.textContent = originalText;
-                        e.target.style.backgroundColor = '';
-                        e.target.style.color = '';
-                    }, 1000);
+                    // Store the selected size and quantity in the product details modal
+                    document.querySelector('.product-details-content').setAttribute('data-temp-size', selectedSize || '');
+                    document.querySelector('.product-details-content').setAttribute('data-temp-quantity', quantity);
                 }
             });
             
@@ -1950,7 +1945,7 @@
                 addToCart(productId, product, selectedSize, quantity, currentImage);
                 
                 const originalText = this.textContent;
-                this.textContent = 'Added!';
+                this.textContent = 'تمت الإضافة!';
                 this.style.backgroundColor = '#D4AF37';
                 this.style.color = 'white';
                 
@@ -1967,6 +1962,8 @@
             });
             
             function addToCart(productId, product, size, quantity = 1, image = null) {
+                if (!size || !image) return false;
+                
                 const existingItem = cart.find(item => 
                     item.id === productId && 
                     item.size === size
@@ -1981,11 +1978,12 @@
                         price: product.price,
                         quantity: quantity,
                         size: size,
-                        image: image || product.images[0]
+                        image: image
                     });
                 }
                 
                 updateCartCount();
+                return true;
             }
             
             function updateCartCount() {
@@ -2015,24 +2013,24 @@
                 e.preventDefault();
                 
                 if (cart.length === 0) {
-                    alert('Your cart is empty');
+                    alert('سلة التسوق فارغة');
                     return;
                 }
                 
-                let message = "Hello MG Egyptian Fashion,\n\nI would like to place an order:\n\n";
+                let message = "مرحبًا بموضة إم جي المصرية،\n\nأود تقديم طلب:\n\n";
                 
                 cart.forEach(item => {
                     message += `- ${item.name}`;
-                    if (item.size) message += ` (Size: ${item.size})`;
-                    message += ` - ${item.price.toFixed(2)} EGP × ${item.quantity}\n`;
+                    if (item.size) message += ` (المقاس: ${item.size})`;
+                    message += ` - ${item.price.toFixed(2)} جنيه × ${item.quantity}\n`;
                     
                     // Include the image URL in the message
                     if (item.image) {
-                        message += `  Image: ${item.image}\n`;
+                        message += `  الصورة: ${item.image}\n`;
                     }
                 });
                 
-                message += `\nTotal: ${calculateTotal()} EGP\n\nPlease confirm my order. Order #: ${generateOrderNumber()}`;
+                message += `\nالإجمالي: ${calculateTotal()} جنيه\n\nالرجاء تأكيد طلبي. رقم الطلب: ${generateOrderNumber()}`;
                 
                 const encodedMessage = encodeURIComponent(message);
                 window.open(`https://wa.me/201123271234?text=${encodedMessage}`, '_blank');
@@ -2087,7 +2085,7 @@
                         }
                         
                         const itemPrice = document.createElement('span');
-                        itemPrice.textContent = `${(item.price * item.quantity).toFixed(2)} EGP`;
+                        itemPrice.textContent = `${(item.price * item.quantity).toFixed(2)} جنيه`;
                         
                         const quantityControls = document.createElement('div');
                         quantityControls.classList.add('order-item-quantity');
@@ -2132,7 +2130,7 @@
                         orderSummaryContainer.appendChild(itemElement);
                     });
                     
-                    document.getElementById('orderTotal').textContent = `Total: ${calculateTotal()} EGP`;
+                    document.getElementById('orderTotal').textContent = `الإجمالي: ${calculateTotal()} جنيه`;
                 }
             }
         });
